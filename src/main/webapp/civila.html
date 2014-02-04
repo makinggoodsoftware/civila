@@ -1,9 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="civila">
 <head>
-    <title></title>
+    <title>Civila</title>
+
+    <link rel="stylesheet/less" href="css/styles.less"/>
+    <link href="includes/font-awesome-4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <script src="includes/js/angular.js"></script>
+    <script src="includes/js/less.js"></script>
+
+    <script src="js/model/grid.js"></script>
+    <script src="js/model/territory.js"></script>
+    <script src="js/services/territoryDao.js"></script>
+    <script src="js/controllers/civila.js"></script>
+    <script src="js/civilaMain.js"></script>
+
 </head>
-<body>
-Hey, this is a game trust me!
+<body ng-controller="Civila">
+
+<div class="grid">
+    <div ng-repeat="row in grid.rows" class="row">
+        <div ng-repeat="cell in row.cells" class="location">
+            <div class="territory">{{cell.territory.type}}</div>
+            <div class="persona">
+                <i class="fa fa-user"></i>
+            </div>
+        </div>
+        <div style="clear: both"></div>
+    </div>
+</div>
+
 </body>
 </html>
