@@ -20,10 +20,12 @@
 
 <div class="grid">
     <div ng-repeat="row in grid.rows" class="row">
-        <div ng-repeat="cell in row.cells" class="location">
-            <div class="territory">{{cell.territory.type}}</div>
-            <div class="persona">
-                <i class="fa fa-user"></i>
+        <div ng-repeat="location in row.locations">
+            <div class="location">
+                <div class="territory" ng-class="location.territory.type"></div>
+                <div ng-if="location.population.size == 1" class="persona">
+                    <i class="fa fa-user"></i>
+                </div>
             </div>
         </div>
         <div style="clear: both"></div>

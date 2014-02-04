@@ -8,27 +8,31 @@ function Grid(numRows, numCols) {
     }
 }
 
-Grid.prototype.getCell = function (row, col) {
-    return this.rows[row - 1].getCell(col);
+Grid.prototype.getLocation = function (row, col) {
+    return this.rows[row - 1].getLocation(col);
 };
 
 function Row(numCols) {
-    this.cells = [];
+    this.locations = [];
 
 
     for (var i = 1; i <= numCols; i++) {
-        this.cells[i - 1] = new Cell();
+        this.locations[i - 1] = new Location();
     }
 }
 
-Row.prototype.getCell = function (col) {
-    return this.cells [col - 1];
+Row.prototype.getLocation = function (col) {
+    return this.locations [col - 1];
 };
 
-function Cell() {
+function Location() {
+    //noinspection JSUnusedGlobalSymbols
+    this.territory = {};
+    //noinspection JSUnusedGlobalSymbols
+    this.population = {size:1};
 }
 
-Cell.prototype.setTerritory = function (territory) {
+Location.prototype.setTerritory = function (territory) {
     //noinspection JSUnusedGlobalSymbols
     this.territory = territory;
 };
