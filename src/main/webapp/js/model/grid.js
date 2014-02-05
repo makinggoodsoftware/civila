@@ -25,14 +25,3 @@ Row.prototype.getLocation = function (col) {
     return this.locations [col - 1];
 };
 
-function Location() {
-    //noinspection JSUnusedGlobalSymbols
-    this.territory = {};
-    //noinspection JSUnusedGlobalSymbols
-    this.population = {size:1};
-}
-
-Location.prototype.setTerritory = function (territory) {
-    //noinspection JSUnusedGlobalSymbols
-    this.territory = territory;
-};

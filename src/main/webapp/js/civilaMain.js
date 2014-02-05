@@ -1,10 +1,13 @@
 angular.module('civila', [], null)
 
 .controller('Civila', Civila)
-.factory ('TerritoryDao', function () {
-    var config = {};
-    config['2'] = {};
-    config['2']['2'] = new Territory ("farms");
-
-    return new TerritoryDao (config);
+.factory ('LocationDao', function () {
+    return new LocationDao ({
+        '2':{
+            '2':{
+                territory: new Territory (TerritoryTypes.FARMS),
+                population : new Population (1)
+            }
+        }
+    });
 });

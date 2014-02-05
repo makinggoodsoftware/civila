@@ -1,5 +1,5 @@
-function Civila ($scope, TerritoryDao){
+function Civila ($scope, LocationDao){
     var grid = new Grid(3, 3);
-    TerritoryDao.populate (grid);
+    LocationDao.populate (grid);
     $scope.grid = grid;
 }
