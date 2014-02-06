@@ -1,5 +1,4 @@
-function Civila ($scope, LocationDao){
-    var grid = new Grid(3, 3);
-    LocationDao.populate (grid);
-    $scope.grid = grid;
+function Civila ($scope, GridFactory, UiListener){
+    $scope.uiListener = UiListener;
+    $scope.grid = GridFactory.createNewGrid();
 }

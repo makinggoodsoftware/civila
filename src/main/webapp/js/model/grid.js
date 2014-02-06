@@ -17,7 +17,7 @@ function Row(numCols) {
 
 
     for (var i = 1; i <= numCols; i++) {
-        this.locations[i - 1] = new Location();
+        this.locations[i - 1] = new Location(TerritoryTypes.UNKNOWN, null);
     }
 }
 

@@ -7,15 +7,15 @@ function TerritoryType (){
     }
 }
 
-function Location (){
-    this.territory = new Territory (TerritoryTypes.UNKNOWN);
-    this.population = new Population (0);
+function Location(territoryType, persona) {
+    this.territory = new Territory (territoryType);
+    this.persona = persona;
 }
 
 function Territory (territoryType){
     this.type = territoryType;
 }
 
-function Population (size){
-    this.size = size;
+function Persona(name){
+    this.name = name;
 }
