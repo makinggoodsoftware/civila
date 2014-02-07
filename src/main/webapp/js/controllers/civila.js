@@ -1,4 +1,4 @@
-function Civila ($scope, GridFactory, UiListener){
+function Civila ($scope, AppState, UiListener){
     $scope.uiListener = UiListener;
-    $scope.grid = GridFactory.createNewGrid();
+    $scope.grid = AppState.grid;
 }

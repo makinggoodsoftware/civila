@@ -1,3 +1,12 @@
+function Coordinates (x, y){
+    this.x = x;
+    this.y = y;
+}
+
+Coordinates.prototype.north = function (){
+    return new Coordinates (this.x, this.y + 1);
+};
+
 function Grid(numRows, numCols) {
     this.rows = [];
     this.numRows = numRows;
@@ -8,8 +17,21 @@ function Grid(numRows, numCols) {
     }
 }
 
-Grid.prototype.getLocation = function (row, col) {
-    return this.rows[row - 1].getLocation(col);
+Grid.prototype.getLocation = function (coordinates) {
+    return this.rows[coordinates.x - 1].getLocation(coordinates.y);
+};
+
+Grid.prototype.findCoordinates = function (locationToFind) {
+    for (var i = 0; i < this.rows.length; i++) {
+        var row = this.rows[i];
+        for (var j = 0; j < row.locations.length; j++) {
+            var location = row.locations[j];
+            if (location == locationToFind){
+                return new Coordinates (i+1, j+1);
+            }
+        }
+    }
+    throw new Error("Can't find the coordinates for location" + JSON.stringify(locationToFind));
 };
 
 function Row(numCols) {
@@ -21,7 +43,6 @@ function Row(numCols) {
     }
 }
 
-Row.prototype.getLocation = function (col) {
-    return this.locations [col - 1];
+Row.prototype.getLocation = function (y) {
+    return this.locations [y - 1];
 };
-

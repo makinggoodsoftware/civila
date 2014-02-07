@@ -13,19 +13,20 @@
     <script src="js/model/grid.js"></script>
     <script src="js/services/locationDao.js"></script>
     <script src="js/services/gridFactory.js"></script>
+    <script src="js/services/navigator.js"></script>
+    <script src="js/ui/appState.js"></script>
     <script src="js/ui/uiListener.js"></script>
     <script src="js/controllers/civila.js"></script>
     <script src="js/civilaMain.js"></script>
 
 </head>
 <body ng-controller="Civila">
-
 <div class="grid">
     <div ng-repeat="row in grid.rows" class="row">
         <div ng-repeat="location in row.locations">
-            <div class="location">
+            <div class="location" ng-click="uiListener.selectedLocation = location">
                 <div class="territory" ng-class="location.territory.type"></div>
-                <div ng-if="location.persona" class="persona" ng-click="uiListener.selectedPersona = location.persona">
+                <div ng-if="location.persona" class="persona">
                     <i class="fa fa-user"></i>
                 </div>
             </div>
@@ -34,9 +35,13 @@
     </div>
 </div>
 
-<div class="personaManagerFrame">
-    <div ng-if="uiListener.selectedPersona">
-        Name : {{uiListener.selectedPersona.name}}
+<div class="locationManagement">
+    <div ng-if="uiListener.selectedLocation">
+        Type of location : {{uiListener.selectedLocation.territory.type}}
+        <div ng-if="uiListener.selectedLocation.persona">
+            Name : {{uiListener.selectedLocation.persona.name}}
+            <button ng-click="uiListener.navigateNorth(uiListener.selectedLocation)">Navigate north</button>
+        </div>
     </div>
 </div>
 

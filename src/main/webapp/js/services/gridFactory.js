@@ -10,7 +10,7 @@ GridFactory.prototype.createNewGrid = function (){
 GridFactory.prototype.populate = function (grid) {
     for (var row = 1; row <= grid.numRows; row++) {
         for (var column = 1; column <= grid.numCols; column++) {
-            var location = grid.getLocation(row, column);
+            var location = grid.getLocation(new Coordinates(row, column));
 
             var configItem = this.locationDao.findLocation(row, column);
             if (!configItem) continue;

@@ -1,12 +1,18 @@
-angular.module('civila', [], null)
+angular.module('civila', [], null).
 
-.controller('Civila', Civila)
-.factory ('LocationDao', function () {
+controller('Civila', Civila).
+factory ('LocationDao', function () {
     return new LocationDao ({
-        '3':{
-            '3': new Location(TerritoryTypes.FARMS, new Persona("John Doe"))
+        '2':{
+            '2': new Location(TerritoryTypes.FARMS, new Persona("John Doe"))
         }
     });
 }).
 service ('GridFactory', GridFactory).
-service ('UiListener', UiListener);
+service ('UiListener', UiListener).
+service ('Navigator', Navigator).
+service ('AppState', function (GridFactory) {
+    return new AppState(
+        GridFactory.createNewGrid()
+    );
+});
