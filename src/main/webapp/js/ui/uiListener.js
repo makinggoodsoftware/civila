@@ -1,21 +1,20 @@
-function UiListener (Navigator, AppState){
-    this.navigator = Navigator;
-    this.appState = AppState;
-
+function UiListener (GridManager){
+    this.gridManager = GridManager;
     //noinspection JSUnusedGlobalSymbols
     this.selectedLocation = null;
 }
 
 //noinspection JSUnusedGlobalSymbols
 UiListener.prototype.navigateNorth = function (location){
-    var grid = this.appState.grid;
+    var grid = this.gridManager.grid;
     var currentCoordinates = grid.findCoordinates(location);
 
-    this.navigator.navigate(
-        grid,
+    var navigationRequest = new NavigationRequest(
         currentCoordinates,
         currentCoordinates.north(),
         this.selectedLocation.persona
-    )
+    );
+
+    this.gridManager.applyNavigation (navigationRequest);
 };
 

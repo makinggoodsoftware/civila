@@ -9,40 +9,38 @@ Coordinates.prototype.north = function (){
 
 function Grid(numRows, numCols) {
     this.rows = [];
-    this.numRows = numRows;
-    this.numCols = numCols;
 
     for (var i = 1; i <= numRows; i++) {
         this.rows[i - 1] = new Row(numCols);
     }
 }
 
-Grid.prototype.getLocation = function (coordinates) {
-    return this.rows[coordinates.x - 1].getLocation(coordinates.y);
+Grid.prototype.getCell = function (coordinates) {
+    return this.rows[coordinates.x - 1].getCell(coordinates.y);
 };
 
-Grid.prototype.findCoordinates = function (locationToFind) {
+Grid.prototype.findCoordinates = function (cellToFind) {
     for (var i = 0; i < this.rows.length; i++) {
         var row = this.rows[i];
-        for (var j = 0; j < row.locations.length; j++) {
-            var location = row.locations[j];
-            if (location == locationToFind){
+        for (var j = 0; j < row.cells.length; j++) {
+            var cell = row.cells[j];
+            if (cell == cellToFind){
                 return new Coordinates (i+1, j+1);
             }
         }
     }
-    throw new Error("Can't find the coordinates for location" + JSON.stringify(locationToFind));
+    throw new Error("Can't find the coordinates for the cell" + JSON.stringify(cellToFind));
 };
 
 function Row(numCols) {
-    this.locations = [];
+    this.cells = [];
 
 
     for (var i = 1; i <= numCols; i++) {
-        this.locations[i - 1] = new Location(TerritoryTypes.UNKNOWN, null);
+        this.cells[i - 1] = new Cell(TerritoryTypes.UNKNOWN, null);
     }
 }
 
-Row.prototype.getLocation = function (y) {
-    return this.locations [y - 1];
+Row.prototype.getCell = function (y) {
+    return this.cells [y - 1];
 };

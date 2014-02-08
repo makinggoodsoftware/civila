@@ -7,7 +7,7 @@ function TerritoryType (){
     }
 }
 
-function Location(territoryType, persona) {
+function Cell(territoryType, persona) {
     this.territory = new Territory (territoryType);
     this.persona = persona;
 }

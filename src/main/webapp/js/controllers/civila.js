@@ -1,4 +1,5 @@
-function Civila ($scope, AppState, UiListener){
+function Civila($scope, UiListener, GridManager) {
+    GridManager.rebuildGrid();
+    $scope.grid = GridManager.grid;
     $scope.uiListener = UiListener;
-    $scope.grid = AppState.grid;
 }
