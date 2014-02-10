@@ -1,7 +1,8 @@
-function GridManager (TerritoryDao, KnowledgeDao) {
+function GridManager (TerritoryDao, KnowledgeDao, $http) {
     this.territoryDao = TerritoryDao;
     this.knowledgeDao = KnowledgeDao;
     this.grid = null;
+    this.$http = $http
 }
 
 GridManager.prototype.rebuildGrid = function (){
@@ -27,4 +28,10 @@ GridManager.prototype.applyNavigation = function (navigationRequest){
         JSON.stringify(navigationRequest.from) +
         " to: " + JSON.stringify(navigationRequest.to) + " with " +
         JSON.stringify(navigationRequest.persona));
+    var toTerritory = this.territoryDao.retrieveTerritoryInfo(navigationRequest.to);
+    var toCell = this.grid.getCell(navigationRequest.to);
+    var fromCell = this.grid.getCell(navigationRequest.from);
+    toCell.territory = toTerritory;
+    toCell.persona = navigationRequest.persona;
+    fromCell.persona = null;
 };

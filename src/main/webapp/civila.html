@@ -42,6 +42,9 @@
         <div ng-if="uiListener.selectedLocation.persona">
             Name : {{uiListener.selectedLocation.persona.name}}
             <button ng-click="uiListener.navigateNorth(uiListener.selectedLocation)">Navigate north</button>
+            <button ng-click="uiListener.navigateSouth(uiListener.selectedLocation)">Navigate south</button>
+            <button ng-click="uiListener.navigateEast(uiListener.selectedLocation)">Navigate east</button>
+            <button ng-click="uiListener.navigateWest(uiListener.selectedLocation)">Navigate west</button>
         </div>
     </div>
 </div>

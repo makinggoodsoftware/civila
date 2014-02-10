@@ -3,7 +3,8 @@ var TerritoryTypes = new TerritoryType().enums;
 function TerritoryType (){
     this.enums = {
         UNKNOWN : "UNKNOWN",
-        FARMS : "FARMS"
+        FARMS : "FARMS",
+        SWAMP : "SWAMP"
     }
 }
 

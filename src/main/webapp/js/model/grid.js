@@ -3,8 +3,14 @@ function Coordinates (x, y){
     this.y = y;
 }
 
-Coordinates.prototype.north = function (){
-    return new Coordinates (this.x, this.y + 1);
+Coordinates.prototype.plus = function (direction){
+    switch (direction){
+        case Directions.NORTH: return new Coordinates (this.x, this.y - 1);
+        case Directions.SOUTH: return new Coordinates (this.x, this.y + 1);
+        case Directions.EAST: return new Coordinates (this.x + 1, this.y);
+        case Directions.WEST: return new Coordinates (this.x - 1, this.y);
+    }
+    throw new Error("Invalid direction -> " + direction);
 };
 
 function Grid(numRows, numCols) {
@@ -16,7 +22,7 @@ function Grid(numRows, numCols) {
 }
 
 Grid.prototype.getCell = function (coordinates) {
-    return this.rows[coordinates.x - 1].getCell(coordinates.y);
+    return this.rows[coordinates.y - 1].getCell(coordinates.x);
 };
 
 Grid.prototype.findCoordinates = function (cellToFind) {
@@ -25,7 +31,7 @@ Grid.prototype.findCoordinates = function (cellToFind) {
         for (var j = 0; j < row.cells.length; j++) {
             var cell = row.cells[j];
             if (cell == cellToFind){
-                return new Coordinates (i+1, j+1);
+                return new Coordinates (j+1, i+1);
             }
         }
     }
