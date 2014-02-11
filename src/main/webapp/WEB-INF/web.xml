@@ -5,8 +5,13 @@
 	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
     <context-param>
+        <param-name>contextClass</param-name>
+        <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+    </context-param>
+
+    <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:application.xml</param-value>
+        <param-value>com.civila.config.ApplicationContext</param-value>
     </context-param>
 
     <listener>
@@ -36,7 +41,7 @@
 
     <servlet-mapping>
         <servlet-name>jersey-serlvet</servlet-name>
-        <url-pattern>/services/*</url-pattern>
+        <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
 
 </web-app>
