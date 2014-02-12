@@ -8,21 +8,19 @@ public class Grid<T> {
 	public final List<Row> rows = new ArrayList<>();
 
 	public Grid(int numOfRows, int numOfCols, GridContentProvider<T> gridContentProvider) {
-		for (int i = 0; i < numOfRows; i++){
-			rows.add(new Row(i, numOfCols, gridContentProvider));
+		for (int y = 0; y < numOfRows; y++){
+			rows.add(new Row<>(y, numOfCols, gridContentProvider));
 		}
 	}
 
 	public static class Row<T> {
-		private final int rowIndex;
 		private final GridContentProvider<T> gridContentProvider;
 		public final List<T> columns = new ArrayList<>();
 
-		public Row(int rowIndex, int numOfCols, GridContentProvider<T> gridContentProvider) {
-			this.rowIndex = rowIndex;
+		public Row(int y, int numOfCols, GridContentProvider<T> gridContentProvider) {
 			this.gridContentProvider = gridContentProvider;
-			for (int i = 0; i < numOfCols; i++){
-				columns.add(this.gridContentProvider.forCoordinates(rowIndex, i));
+			for (int x = 0; x < numOfCols; x++){
+				columns.add(this.gridContentProvider.forCoordinates(x, y));
 			}
 		}
 	}

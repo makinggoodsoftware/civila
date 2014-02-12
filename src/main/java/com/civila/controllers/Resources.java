@@ -24,7 +24,7 @@ public class Resources {
 	@Path("grid")
 	@Produces("application/json")
 	public Response grid(){
-		return Response.status(200).entity(civiblockService.retrieveGrid(-3, -4, 3, 4)).build();
+		return Response.status(200).entity(civiblockService.retrieveGrid(-5, -2, 5, 2)).build();
 	}
 
 }

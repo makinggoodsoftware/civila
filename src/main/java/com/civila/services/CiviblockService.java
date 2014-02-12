@@ -15,16 +15,14 @@ public class CiviblockService {
 	}
 
 	public Grid<Civiblock> retrieveGrid(final int delta1_x, final int delta1_y, int delta2_x, int delta2_y) {
-		int numOfRows = Math.abs(delta2_y - delta1_y);
-		int numOfCols = Math.abs(delta2_x - delta1_x);
+		int numOfRows = Math.abs(delta2_y - delta1_y) + 1;
+		int numOfCols = Math.abs(delta2_x - delta1_x) + 1;
 
-		return new Grid<Civiblock>(numOfRows, numOfCols, new GridContentProvider<Civiblock>() {
+		return new Grid<>(numOfRows, numOfCols, new GridContentProvider<Civiblock>() {
 			@Override
 			public Civiblock forCoordinates(int x, int y) {
-				int x0Based = x - 1;
-				int y0Based = y - 1;
-				int realCoordinateX = delta1_x + x0Based;
-				int realCoordinateY = delta1_y + y0Based;
+				int realCoordinateX = delta1_x + x;
+				int realCoordinateY = delta1_y + y;
 				return produceCiviblock(realCoordinateX, realCoordinateY);
 			}
 		});
