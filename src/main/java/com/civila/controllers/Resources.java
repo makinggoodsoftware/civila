@@ -1,6 +1,6 @@
 package com.civila.controllers;
 
-import com.civila.services.GridService;
+import com.civila.services.CiviblockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,18 +12,19 @@ import javax.ws.rs.core.Response;
 @Component
 @Path("current")
 public class Resources {
- 	private final GridService gridService;
+ 	private final CiviblockService civiblockService;
 
 	@Autowired
-	public Resources(GridService gridService) {
-		this.gridService = gridService;
+	public Resources(CiviblockService civiblockService) {
+		this.civiblockService = civiblockService;
 	}
+
 
 	@GET
 	@Path("grid")
 	@Produces("application/json")
 	public Response grid(){
-		return Response.status(200).entity(gridService.retrieveGrid()).build();
+		return Response.status(200).entity(civiblockService.retrieveGrid(-3, -4, 3, 4)).build();
 	}
 
 }

@@ -7,8 +7,8 @@ function GridManager(TerritoryDao, $http) {
 GridManager.prototype.rebuildGrid = function (){
     var _this = this;
     this.$http.get("/rest/current/grid").
-        success(new function (data) {
-            _this.grid = new Grid(data);
+        success(function (data) {
+            _this.grid = data;
     });
 //    this.grid = new Grid (6, 8);
 //    var knowledge = this.knowledgeDao.gatherKnowledge();

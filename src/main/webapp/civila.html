@@ -21,10 +21,9 @@
 
 </head>
 <body ng-controller="Civila">
-
 <div class="grid">
-    <div ng-repeat="row in grid.rows" class="row">
-        <div ng-repeat="cell in row.cells">
+    <div ng-repeat="row in gridManager.grid.rows" class="row">
+        <div ng-repeat="cell in row.columns">
             <div class="cell" ng-click="uiListener.selectedLocation = cell">
                 <div class="territory" ng-class="cell.territory.type"></div>
                 <div ng-if="cell.persona" class="persona">
