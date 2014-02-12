@@ -1,8 +1,8 @@
 package com.civila.model;
 
 public class Coordinates {
-	private final int x;
-	private final int y;
+	public final int x;
+	public final int y;
 
 	public static Coordinates coordinatesFrom(int x, int y) {
 		return new Coordinates(x, y);

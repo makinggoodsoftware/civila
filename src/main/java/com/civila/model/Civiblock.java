@@ -1,18 +1,19 @@
 package com.civila.model;
 
 public class Civiblock {
-	private static final Civiblock UNKNOWN = new Civiblock(CiviblockStates.UNKNOWN, null, null);
-	public final CiviblockStates type;
+	public final Coordinates coordinates;
+	public final CiviblockStates state;
 	public final Territory territory;
 	public final Persona persona;
 
-	public static Civiblock empty (){
-		return UNKNOWN;
+	public static Civiblock empty(Coordinates coordinate){
+		return new Civiblock(CiviblockStates.UNKNOWN, null, null, coordinate);
 	}
 
-	public Civiblock(CiviblockStates type, Territory territory, Persona persona) {
-		this.type = type;
+	public Civiblock(CiviblockStates state, Territory territory, Persona persona, Coordinates coordinates) {
+		this.state = state;
 		this.territory = territory;
 		this.persona = persona;
+		this.coordinates = coordinates;
 	}
 }

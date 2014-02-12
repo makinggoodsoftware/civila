@@ -24,8 +24,7 @@
 <div class="grid">
     <div ng-repeat="row in gridManager.grid.rows" class="row">
         <div ng-repeat="civiblock in row.columns">
-            <div class="civiblock" ng-click="uiListener.selectedLocation = civiblock" ng-class="civiblock.type">
-                
+            <div class="civiblock" ng-click="uiListener.selectedLocation = civiblock" ng-class="civiblock.state">
                 <div class="territory" ng-class="civiblock.territory.type"></div>
                 <div ng-if="civiblock.persona" class="persona">
                     <i class="fa fa-user"></i>
@@ -38,13 +37,16 @@
 
 <div class="locationManagement">
     <div ng-if="uiListener.selectedLocation">
-        Type of location : {{uiListener.selectedLocation.territory.type}}
-        <div ng-if="uiListener.selectedLocation.persona">
-            Name : {{uiListener.selectedLocation.persona.name}}
-            <button ng-click="uiListener.navigateNorth(uiListener.selectedLocation)">Navigate north</button>
-            <button ng-click="uiListener.navigateSouth(uiListener.selectedLocation)">Navigate south</button>
-            <button ng-click="uiListener.navigateEast(uiListener.selectedLocation)">Navigate east</button>
-            <button ng-click="uiListener.navigateWest(uiListener.selectedLocation)">Navigate west</button>
+        {{uiListener.selectedLocation.state}} [{{uiListener.selectedLocation.coordinates}}]
+        <div ng-if="uiListener.selectedLocation.state != 'UNKNOWN'">
+            Type of location : {{uiListener.selectedLocation.territory.type}}
+            <div ng-if="uiListener.selectedLocation.persona">
+                Name : {{uiListener.selectedLocation.persona.name}}
+                <button ng-click="uiListener.navigateNorth(uiListener.selectedLocation)">Navigate north</button>
+                <button ng-click="uiListener.navigateSouth(uiListener.selectedLocation)">Navigate south</button>
+                <button ng-click="uiListener.navigateEast(uiListener.selectedLocation)">Navigate east</button>
+                <button ng-click="uiListener.navigateWest(uiListener.selectedLocation)">Navigate west</button>
+            </div>
         </div>
     </div>
 </div>

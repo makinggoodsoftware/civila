@@ -2,6 +2,7 @@ package com.civila.services;
 
 import com.civila.dao.CiviblockDao;
 import com.civila.model.Civiblock;
+import com.civila.model.Coordinates;
 import com.civila.model.grid.Grid;
 import com.civila.model.grid.GridContentProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,6 @@ public class CiviblockService {
 
 	private Civiblock produceCiviblock(int x, int y) {
 		Civiblock found = civiblockDao.retrieve(x, y);
-		return (found == null) ? Civiblock.empty() : found;
+		return (found == null) ? Civiblock.empty(new Coordinates(x, y)) : found;
 	}
 }
