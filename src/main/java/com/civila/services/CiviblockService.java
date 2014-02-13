@@ -5,12 +5,10 @@ import com.civila.model.Civiblock;
 import com.civila.model.Coordinates;
 import com.civila.model.grid.Grid;
 import com.civila.model.grid.GridContentProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class CiviblockService {
 	private final CiviblockDao civiblockDao;
 
-	@Autowired
 	public CiviblockService(CiviblockDao civiblockDao) {
 		this.civiblockDao = civiblockDao;
 	}
