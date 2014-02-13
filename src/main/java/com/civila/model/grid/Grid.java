@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Grid<T> {
-	public final List<Row> rows = new ArrayList<>();
+	private final List<Row> rows = new ArrayList<>();
 
 	public Grid(int numOfRows, int numOfCols, GridContentProvider<T> gridContentProvider) {
 		for (int y = 0; y < numOfRows; y++){
@@ -23,5 +23,9 @@ public class Grid<T> {
 				columns.add(this.gridContentProvider.forCoordinates(x, y));
 			}
 		}
+	}
+
+	public List<Row> getRows() {
+		return rows;
 	}
 }

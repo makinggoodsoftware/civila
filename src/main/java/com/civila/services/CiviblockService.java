@@ -23,7 +23,7 @@ public class CiviblockService {
 			@Override
 			public Civiblock forCoordinates(int x, int y) {
 				int realCoordinateX = delta1_x + x;
-				int realCoordinateY = delta1_y + y;
+				int realCoordinateY = -(delta1_y + y);
 				return produceCiviblock(realCoordinateX, realCoordinateY);
 			}
 		});

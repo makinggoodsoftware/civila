@@ -29,7 +29,7 @@
             <param-name>
                 com.sun.jersey.config.property.packages
             </param-name>
-            <param-value>com.civila</param-value>
+            <param-value>com.civila.controllers</param-value>
         </init-param>
         <init-param>
             <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>

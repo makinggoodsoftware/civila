@@ -1,37 +1,36 @@
 function UiListener (GridManager){
     this.gridManager = GridManager;
     //noinspection JSUnusedGlobalSymbols
-    this.selectedLocation = null;
+    this.selectedBlock = null;
 }
 
 //noinspection JSUnusedGlobalSymbols
-UiListener.prototype.navigateNorth = function (fromLocation){
-    this.navigateTo (fromLocation, Directions.NORTH);
+UiListener.prototype.navigateNorth = function (fromBlock){
+    this.navigateTo (fromBlock, Directions.NORTH);
 };
 
 //noinspection JSUnusedGlobalSymbols
-UiListener.prototype.navigateSouth = function (fromLocation){
-    this.navigateTo (fromLocation, Directions.SOUTH);
+UiListener.prototype.navigateSouth = function (fromBlock){
+    this.navigateTo (fromBlock, Directions.SOUTH);
 };
 
 //noinspection JSUnusedGlobalSymbols
-UiListener.prototype.navigateEast = function (fromLocation){
-    this.navigateTo (fromLocation, Directions.EAST);
+UiListener.prototype.navigateEast = function (fromBlock){
+    this.navigateTo (fromBlock, Directions.EAST);
 };
 
 //noinspection JSUnusedGlobalSymbols
-UiListener.prototype.navigateWest = function (fromLocation){
-    this.navigateTo (fromLocation, Directions.WEST);
+UiListener.prototype.navigateWest = function (fromBlock){
+    this.navigateTo (fromBlock, Directions.WEST);
 };
 
-UiListener.prototype.navigateTo = function (fromLocation, direction) {
-    var grid = this.gridManager.grid;
-    var currentCoordinates = grid.findCoordinates(fromLocation);
+UiListener.prototype.navigateTo = function (fromBlock, direction) {
+    var currentCoordinates = angular.extend(new Coordinates(null, null), fromBlock.coordinates);
 
     var navigationRequest = new NavigationRequest(
         currentCoordinates,
         currentCoordinates.plus(direction),
-        this.selectedLocation.persona
+        this.selectedBlock.persona
     );
 
     this.gridManager.applyNavigation(navigationRequest);
