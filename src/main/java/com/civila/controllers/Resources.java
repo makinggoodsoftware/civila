@@ -1,6 +1,6 @@
 package com.civila.controllers;
 
-import com.civila.services.CiviblockService;
+import com.civila.services.api.CiviblockService;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

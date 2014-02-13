@@ -1,4 +1,4 @@
-package com.civila.services;
+package com.civila.services.api;
 
 import com.civila.dao.CiviblockDao;
 import com.civila.model.Civiblock;
