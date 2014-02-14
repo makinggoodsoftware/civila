@@ -22,13 +22,14 @@ public class CiviblockService {
 			public Civiblock forCoordinates(int x, int y) {
 				int realCoordinateX = delta1_x + x;
 				int realCoordinateY = -(delta1_y + y);
-				return produceCiviblock(realCoordinateX, realCoordinateY);
+				return produceCiviblock(new Coordinates(realCoordinateX, realCoordinateY));
 			}
 		});
 	}
 
-	private Civiblock produceCiviblock(int x, int y) {
-		Civiblock found = civiblockDao.retrieve(x, y);
-		return (found == null) ? Civiblock.empty(new Coordinates(x, y)) : found;
+	public Civiblock produceCiviblock(Coordinates coordinates) {
+		Civiblock found = civiblockDao.retrieve(coordinates.getX(), coordinates.getY());
+		return (found == null) ? Civiblock.empty(new Coordinates(coordinates.getX(), coordinates.getY())) : found;
 	}
+
 }

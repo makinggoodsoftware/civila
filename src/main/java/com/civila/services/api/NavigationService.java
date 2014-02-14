@@ -2,19 +2,19 @@ package com.civila.services.api;
 
 import com.civila.aux.assertion.AssertResultProcessor;
 import com.civila.model.NavigationRequest;
-import com.civila.services.NavigationServiceAsserts;
+import com.civila.services.asserts.NavigationAsserts;
 
 public class NavigationService {
 
-	private final NavigationServiceAsserts navigationServiceAsserts;
+	private final NavigationAsserts navigationAsserts;
 
-	public NavigationService(NavigationServiceAsserts navigationServiceAsserts) {
-		this.navigationServiceAsserts = navigationServiceAsserts;
+	public NavigationService(NavigationAsserts navigationAsserts) {
+		this.navigationAsserts = navigationAsserts;
 	}
 
 	public boolean navigate(NavigationRequest navigationRequest) {
 		final boolean[] result = new boolean[1];
-		navigationServiceAsserts.assertNavigationIsLegal(navigationRequest).then(
+		navigationAsserts.assertNavigationIsLegal(navigationRequest).then(
 			new AssertResultProcessor() {
 				@Override
 				public void onAssertSuccessful() {

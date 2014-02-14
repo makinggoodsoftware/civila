@@ -3,9 +3,10 @@ package com.civila.config;
 import com.civila.controllers.Actions;
 import com.civila.controllers.Resources;
 import com.civila.dao.CiviblockDao;
+import com.civila.services.asserts.CiviblockAsserts;
+import com.civila.services.asserts.NavigationAsserts;
 import com.civila.services.api.CiviblockService;
 import com.civila.services.api.NavigationService;
-import com.civila.services.NavigationServiceAsserts;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -31,7 +32,11 @@ public class ApplicationContext {
 		return new NavigationService(navigationServiceAsserts());
 	}
 
-	@Bean public NavigationServiceAsserts navigationServiceAsserts() {
-		return new NavigationServiceAsserts();
+	@Bean public NavigationAsserts navigationServiceAsserts() {
+		return new NavigationAsserts(civiblockAsserts());
+	}
+
+	@Bean public CiviblockAsserts civiblockAsserts() {
+		return new CiviblockAsserts(civiblockService());
 	}
 }

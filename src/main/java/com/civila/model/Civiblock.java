@@ -20,6 +20,10 @@ public class Civiblock {
 		this.coordinates = coordinates;
 	}
 
+	public boolean contains(Persona persona) {
+		return this.persona.equals(persona);
+	}
+
 	public Coordinates getCoordinates() {
 		return coordinates;
 	}
