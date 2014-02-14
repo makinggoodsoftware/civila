@@ -26,8 +26,8 @@ public class NavigationAsserts {
 				}
 
 				@Override
-				public void onAssertError(AssertException cause) {
-					assertResult[0] = new AssertResult(false, cause);
+				public String onAssertError() {
+					return "Illegal navigation request!";
 				}
 			}
 		);

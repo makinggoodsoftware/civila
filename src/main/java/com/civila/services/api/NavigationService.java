@@ -23,8 +23,8 @@ public class NavigationService {
 				}
 
 				@Override
-				public void onAssertError(AssertException cause) throws AssertException {
-					throw new AssertException("Illegal navigation request!", cause);
+				public String onAssertError() {
+					return "Navigation request is illegal!";
 				}
 			}
 		);

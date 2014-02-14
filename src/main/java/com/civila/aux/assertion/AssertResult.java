@@ -13,16 +13,12 @@ public class AssertResult {
 		}
 	}
 
-	public AssertResult(boolean successful, AssertException cause) {
-		this.successful = successful;
-		this.cause = cause;
-	}
-
 	public void then(AssertResultProcessor assertResultProcessor) throws AssertException {
 		if (successful) {
 			assertResultProcessor.onAssertSuccessful();
 		} else {
-			assertResultProcessor.onAssertError(cause);
+			String assertErrorDescription = assertResultProcessor.onAssertError();
+			throw new AssertException(assertErrorDescription, cause);
 		}
 	}
 }
