@@ -14,9 +14,9 @@ public class CiviblockAsserts {
 
 	public AssertResult assertCoordinatesContainsPersona(Coordinates from, Persona persona) {
 		if (civiblockService.produceCiviblock(from).contains(persona)) {
-			return new AssertResult(true);
+			return new AssertResult(true, "");
 		}else{
-			return new AssertResult(false);
+			return new AssertResult(false, "Coordinates don't contain person");
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package com.civila.controllers;
 
+import com.civila.aux.assertion.AssertException;
 import com.civila.model.NavigationRequest;
 import com.civila.services.api.NavigationService;
 
@@ -20,6 +21,10 @@ public class Actions {
 	@Path("navigate")
 	@Produces("application/json")
 	public Response navigate(NavigationRequest navigationRequest){
-		return Response.status(200).entity(navigationService.navigate(navigationRequest)).build();
+		try {
+			return Response.status(200).entity(navigationService.navigate(navigationRequest)).build();
+		} catch (AssertException e) {
+			return Response.status(500).entity(e).build();
+		}
 	}
 }

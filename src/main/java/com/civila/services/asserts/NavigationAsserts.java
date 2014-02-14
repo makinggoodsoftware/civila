@@ -1,5 +1,6 @@
 package com.civila.services.asserts;
 
+import com.civila.aux.assertion.AssertException;
 import com.civila.aux.assertion.AssertResult;
 import com.civila.aux.assertion.AssertResultProcessor;
 import com.civila.model.Coordinates;
@@ -13,7 +14,7 @@ public class NavigationAsserts {
 		this.civiblockAsserts = civiblockAsserts;
 	}
 
-	public AssertResult assertNavigationIsLegal(NavigationRequest navigationRequest) {
+	public AssertResult assertNavigationIsLegal(NavigationRequest navigationRequest) throws AssertException {
 		final AssertResult[] assertResult = new AssertResult[1];
 		Coordinates from = navigationRequest.getFrom();
 		Persona persona = navigationRequest.getPersona();
@@ -21,12 +22,12 @@ public class NavigationAsserts {
 			new AssertResultProcessor() {
 				@Override
 				public void onAssertSuccessful() {
-					assertResult[0] = new AssertResult(true);
+					assertResult[0] = new AssertResult(true, "");
 				}
 
 				@Override
-				public void onAssertError() {
-					assertResult[0] = new AssertResult(false);
+				public void onAssertError(AssertException cause) {
+					assertResult[0] = new AssertResult(false, cause);
 				}
 			}
 		);
