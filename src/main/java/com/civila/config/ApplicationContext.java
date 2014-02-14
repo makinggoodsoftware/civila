@@ -3,6 +3,7 @@ package com.civila.config;
 import com.civila.controllers.Actions;
 import com.civila.controllers.Resources;
 import com.civila.dao.CiviblockDao;
+import com.civila.aux.assertion.AssertionRunner;
 import com.civila.services.asserts.CiviblockAsserts;
 import com.civila.services.asserts.NavigationAsserts;
 import com.civila.services.api.CiviblockService;
@@ -33,10 +34,14 @@ public class ApplicationContext {
 	}
 
 	@Bean public NavigationAsserts navigationServiceAsserts() {
-		return new NavigationAsserts(civiblockAsserts());
+		return new NavigationAsserts(civiblockAsserts(), assertionRunner());
 	}
 
 	@Bean public CiviblockAsserts civiblockAsserts() {
-		return new CiviblockAsserts(civiblockService());
+		return new CiviblockAsserts(civiblockService(), assertionRunner());
+	}
+
+	@Bean public AssertionRunner assertionRunner() {
+		return new AssertionRunner();
 	}
 }

@@ -2,36 +2,36 @@ package com.civila.services.asserts;
 
 import com.civila.aux.assertion.AssertException;
 import com.civila.aux.assertion.AssertResult;
-import com.civila.aux.assertion.AssertResultProcessor;
+import com.civila.aux.assertion.Assertion;
+import com.civila.aux.assertion.AssertionRunner;
 import com.civila.model.Coordinates;
 import com.civila.model.NavigationRequest;
 import com.civila.model.Persona;
 
 public class NavigationAsserts {
 	private final CiviblockAsserts civiblockAsserts;
+	private final AssertionRunner assertionRunner;
 
-	public NavigationAsserts(CiviblockAsserts civiblockAsserts) {
+	public NavigationAsserts(CiviblockAsserts civiblockAsserts, AssertionRunner assertionRunner) {
 		this.civiblockAsserts = civiblockAsserts;
+		this.assertionRunner = assertionRunner;
 	}
 
-	public AssertResult assertNavigationIsLegal(NavigationRequest navigationRequest) throws AssertException {
-		final AssertResult[] assertResult = new AssertResult[1];
-		Coordinates from = navigationRequest.getFrom();
-		Persona persona = navigationRequest.getPersona();
-		civiblockAsserts.assertCoordinatesContainsPersona (from, persona).then(
-			new AssertResultProcessor() {
-				@Override
-				public void onAssertSuccessful() {
-					assertResult[0] = new AssertResult(true, "");
-				}
+	public AssertResult assertNavigationIsLegal(final NavigationRequest navigationRequest) throws AssertException {
+		final Coordinates from = navigationRequest.getFrom();
+		final Persona persona = navigationRequest.getPersona();
 
-				@Override
-				public String onAssertError() {
-					return "Illegal navigation request!";
-				}
+		return assertionRunner.run(new Assertion() {
+			@Override
+			public boolean condition() {
+				return civiblockAsserts.assertCoordinatesContainsPersona (from, persona).isSatisfied();
 			}
-		);
-		return assertResult[0];
+
+			@Override
+			public String assertionErrorDescription() {
+				return "Illegal navigation request!";
+			}
+		});
 	}
 
 }

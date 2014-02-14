@@ -21,4 +21,8 @@ public class AssertResult {
 			throw new AssertException(assertErrorDescription, cause);
 		}
 	}
+
+	public boolean isSatisfied() {
+		return successful;
+	}
 }
