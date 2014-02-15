@@ -1,7 +1,6 @@
-package com.civila.services.asserts;
+package com.civila.services.secure.asserts;
 
 import com.civila.aux.assertion.AssertException;
-import com.civila.aux.assertion.AssertResult;
 import com.civila.aux.assertion.Assertion;
 import com.civila.aux.assertion.AssertionRunner;
 import com.civila.model.Coordinates;
@@ -17,7 +16,7 @@ public class NavigationAsserts {
 		this.assertionRunner = assertionRunner;
 	}
 
-	public AssertResult assertNavigationIsLegal(final NavigationRequest navigationRequest) throws AssertException {
+	public AssertionRunner.AssertContinuation assertNavigationIsLegal(final NavigationRequest navigationRequest) throws AssertException {
 		final Coordinates from = navigationRequest.getFrom();
 		final Persona persona = navigationRequest.getPersona();
 

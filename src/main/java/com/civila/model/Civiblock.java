@@ -24,6 +24,14 @@ public class Civiblock {
 		return this.persona.equals(persona);
 	}
 
+	public void removePersona(Persona personaToMove) {
+		this.persona = null;
+	}
+
+	public void addPersona(Persona persona) {
+		this.persona = persona;
+	}
+
 	public Coordinates getCoordinates() {
 		return coordinates;
 	}
@@ -54,5 +62,9 @@ public class Civiblock {
 
 	public void setPersona(Persona persona) {
 		this.persona = persona;
+	}
+
+	public boolean isUnknown() {
+		return state == CiviblockStates.UNKNOWN;
 	}
 }

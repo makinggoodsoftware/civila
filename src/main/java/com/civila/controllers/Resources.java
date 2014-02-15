@@ -1,6 +1,6 @@
 package com.civila.controllers;
 
-import com.civila.services.api.CiviblockService;
+import com.civila.services.secure.SecureCiviblockService;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -9,10 +9,10 @@ import javax.ws.rs.core.Response;
 
 @Path("current")
 public class Resources {
- 	private final CiviblockService civiblockService;
+ 	private final SecureCiviblockService secureCiviblockService;
 
-	public Resources(CiviblockService civiblockService) {
-		this.civiblockService = civiblockService;
+	public Resources(SecureCiviblockService secureCiviblockService) {
+		this.secureCiviblockService = secureCiviblockService;
 	}
 
 
@@ -20,7 +20,7 @@ public class Resources {
 	@Path("grid")
 	@Produces("application/json")
 	public Response grid(){
-		return Response.status(200).entity(civiblockService.retrieveGrid(-5, -2, 5, 2)).build();
+		return Response.status(200).entity(secureCiviblockService.retrieveGrid(-5, -2, 5, 2)).build();
 	}
 
 }

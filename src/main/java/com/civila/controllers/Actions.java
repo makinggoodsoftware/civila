@@ -2,7 +2,7 @@ package com.civila.controllers;
 
 import com.civila.aux.assertion.AssertException;
 import com.civila.model.NavigationRequest;
-import com.civila.services.api.NavigationService;
+import com.civila.services.secure.SecureNavigationService;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -11,10 +11,10 @@ import javax.ws.rs.core.Response;
 
 @Path("actions")
 public class Actions {
-	private final NavigationService navigationService;
+	private final SecureNavigationService secureNavigationService;
 
-	public Actions(NavigationService navigationService) {
-		this.navigationService = navigationService;
+	public Actions(SecureNavigationService secureNavigationService) {
+		this.secureNavigationService = secureNavigationService;
 	}
 
 	@POST
@@ -22,7 +22,8 @@ public class Actions {
 	@Produces("application/json")
 	public Response navigate(NavigationRequest navigationRequest){
 		try {
-			return Response.status(200).entity(navigationService.navigate(navigationRequest)).build();
+			secureNavigationService.navigate(navigationRequest);
+			return Response.status(200).entity(true).build();
 		} catch (AssertException e) {
 			return Response.status(500).entity(e).build();
 		}
