@@ -13,6 +13,7 @@
     <script src="js/model/coordinates.js"></script>
     <script src="js/model/navigation.js"></script>
     <script src="js/services/gridManager.js"></script>
+    <script src="js/services/commandsManager.js"></script>
     <script src="js/ui/uiListener.js"></script>
     <script src="js/civilaMain.js"></script>
 
@@ -45,6 +46,17 @@
                 <button ng-click="uiListener.navigateWest(uiListener.selectedBlock)">Navigate west</button>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="turnActions">
+    <div ng-repeat="possibleOrder in commandsManager.possibleOrders" class="possibleOrder">
+        <div ng-if="possibleOrder.definition" class="{order}">
+            Type = {{possibleOrder.definition.type}}
+        </div>
+    </div>
+    <div class="turnController">
+        <button ng-click="uiListener.submitTurn()">Turn completed!</button>
     </div>
 </div>
 

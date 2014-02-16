@@ -1,17 +1,18 @@
 package com.civila.config;
 
+import com.civila.aux.assertion.AssertionRunner;
 import com.civila.controllers.Actions;
 import com.civila.controllers.Resources;
 import com.civila.dao.CiviblockDao;
-import com.civila.aux.assertion.AssertionRunner;
 import com.civila.model.*;
+import com.civila.services.internal.InternalCiviblockService;
+import com.civila.services.internal.InternalNavigationService;
 import com.civila.services.internal.WorldCreator;
 import com.civila.services.secure.SecureCiviblockService;
+import com.civila.services.secure.SecureCommandsService;
 import com.civila.services.secure.SecureNavigationService;
 import com.civila.services.secure.asserts.CiviblockAsserts;
 import com.civila.services.secure.asserts.NavigationAsserts;
-import com.civila.services.internal.InternalCiviblockService;
-import com.civila.services.internal.InternalNavigationService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -43,7 +44,11 @@ public class ApplicationContext {
 	}
 
 	@Bean public Actions actions (){
-		return new Actions (secureNavigationService());
+		return new Actions (secureCommandsService());
+	}
+
+	@Bean public SecureCommandsService secureCommandsService() {
+		return new SecureCommandsService(secureNavigationService());
 	}
 
 	@Bean public SecureNavigationService secureNavigationService() {

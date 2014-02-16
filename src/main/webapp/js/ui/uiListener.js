@@ -1,7 +1,7 @@
-function UiListener (GridManager){
-    this.gridManager = GridManager;
+function UiListener (CommandsManager){
     //noinspection JSUnusedGlobalSymbols
     this.selectedBlock = null;
+    this.commnadsManager = CommandsManager;
 }
 
 //noinspection JSUnusedGlobalSymbols
@@ -33,6 +33,10 @@ UiListener.prototype.navigateTo = function (fromBlock, direction) {
         this.selectedBlock.persona
     );
 
-    this.gridManager.applyNavigation(navigationRequest);
+    this.commnadsManager.addCommand (navigationRequest);
+};
+
+UiListener.prototype.submitTurn = function (){
+    this.commnadsManager.submitTurn();
 };
 

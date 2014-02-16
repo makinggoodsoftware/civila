@@ -11,15 +11,3 @@ GridManager.prototype.rebuildGrid = function (){
             _this.grid = data;
     });
 };
-
-GridManager.prototype.applyNavigation = function (navigationRequest){
-    console.log("about to navigate from: " +
-        JSON.stringify(navigationRequest.from) +
-        " to: " + JSON.stringify(navigationRequest.to) + " with " +
-        JSON.stringify(navigationRequest.persona));
-    var _this = this;
-    this.$http.post("/rest/actions/navigate/", navigationRequest).
-        success(function () {
-            _this.rebuildGrid();
-        });
-};
