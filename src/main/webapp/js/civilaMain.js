@@ -2,5 +2,5 @@ angular.module('civila', [], null).
 
 controller('Civila', Civila).
 service ('GridManager', GridManager).
-service ('CommandsManager', CommandsManager).
+service ('TurnManager', TurnManager).
 service ('UiListener', UiListener);

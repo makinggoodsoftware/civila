@@ -1,18 +1,20 @@
 package com.civila.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Turn {
-	private List<NavigationRequest> navigationRequests;
+	private List<OrderPlaceholder> possibleOrders = new ArrayList<>();
 
 	public Turn() {
+		possibleOrders.add(new OrderPlaceholder());
 	}
 
-	public List<NavigationRequest> getNavigationRequests() {
-		return navigationRequests;
+	public List<OrderPlaceholder> getPossibleOrders() {
+		return possibleOrders;
 	}
 
-	public void setNavigationRequests(List<NavigationRequest> navigationRequests) {
-		this.navigationRequests = navigationRequests;
+	public void setPossibleOrders(List<OrderPlaceholder> possibleOrders) {
+		this.possibleOrders = possibleOrders;
 	}
 }

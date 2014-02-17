@@ -11,6 +11,7 @@ import com.civila.services.internal.WorldCreator;
 import com.civila.services.secure.SecureCiviblockService;
 import com.civila.services.secure.SecureCommandsService;
 import com.civila.services.secure.SecureNavigationService;
+import com.civila.services.secure.SecureTurnService;
 import com.civila.services.secure.asserts.CiviblockAsserts;
 import com.civila.services.secure.asserts.NavigationAsserts;
 import org.springframework.context.annotation.Bean;
@@ -36,7 +37,11 @@ public class ApplicationContext {
 	}
 
 	@Bean public Resources resources (){
-		return new Resources(secureCiviblockService());
+		return new Resources(secureCiviblockService(), secureTurnService());
+	}
+
+	@Bean public SecureTurnService secureTurnService() {
+		return new SecureTurnService();
 	}
 
 	@Bean public SecureCiviblockService secureCiviblockService() {

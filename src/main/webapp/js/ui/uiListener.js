@@ -1,7 +1,7 @@
-function UiListener (CommandsManager){
+function UiListener (TurnManager){
     //noinspection JSUnusedGlobalSymbols
     this.selectedBlock = null;
-    this.commnadsManager = CommandsManager;
+    this.turnManager = TurnManager;
 }
 
 //noinspection JSUnusedGlobalSymbols
@@ -33,10 +33,10 @@ UiListener.prototype.navigateTo = function (fromBlock, direction) {
         this.selectedBlock.persona
     );
 
-    this.commnadsManager.addCommand (navigationRequest);
+    this.turnManager.addCommand (navigationRequest);
 };
 
 UiListener.prototype.submitTurn = function (){
-    this.commnadsManager.submitTurn();
+    this.turnManager.submitTurn();
 };
 

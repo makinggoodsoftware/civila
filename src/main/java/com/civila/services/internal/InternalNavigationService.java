@@ -1,9 +1,6 @@
 package com.civila.services.internal;
 
-import com.civila.model.Civiblock;
-import com.civila.model.Coordinates;
-import com.civila.model.NavigationRequest;
-import com.civila.model.Persona;
+import com.civila.model.*;
 import com.civila.services.NavigationService;
 
 public class InternalNavigationService implements NavigationService{
@@ -30,6 +27,8 @@ public class InternalNavigationService implements NavigationService{
 		}
 
 		fromBlock.removePersona(personaToMove);
+		fromBlock.setState(CiviblockStates.VISITED);
 		toBlock.addPersona(personaToMove);
+		toBlock.setState(CiviblockStates.OCCUPIED);
 	}
 }

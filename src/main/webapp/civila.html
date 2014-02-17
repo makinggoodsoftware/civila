@@ -13,7 +13,7 @@
     <script src="js/model/coordinates.js"></script>
     <script src="js/model/navigation.js"></script>
     <script src="js/services/gridManager.js"></script>
-    <script src="js/services/commandsManager.js"></script>
+    <script src="js/services/turnManager.js"></script>
     <script src="js/ui/uiListener.js"></script>
     <script src="js/civilaMain.js"></script>
 
@@ -49,8 +49,9 @@
     </div>
 </div>
 
+--{{turnManager.turn}}
 <div class="turnActions">
-    <div ng-repeat="possibleOrder in commandsManager.possibleOrders" class="possibleOrder">
+    <div ng-repeat="possibleOrder in turnManager.turn.possibleOrders" class="possibleOrder">
         <div ng-if="possibleOrder.definition" class="{order}">
             Type = {{possibleOrder.definition.type}}
         </div>

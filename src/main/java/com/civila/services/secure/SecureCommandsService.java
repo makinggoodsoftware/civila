@@ -1,5 +1,6 @@
 package com.civila.services.secure;
 
+import com.civila.model.NavigationRequest;
 import com.civila.model.Turn;
 import com.civila.services.CommandsService;
 
@@ -12,6 +13,6 @@ public class SecureCommandsService implements CommandsService {
 
 	@Override
 	public void endTurn(Turn turn) {
-		secureNavigationService.navigate(turn.getNavigationRequests().get(0));
+		secureNavigationService.navigate((NavigationRequest) turn.getPossibleOrders().get(0).getDefinition());
 	}
 }
