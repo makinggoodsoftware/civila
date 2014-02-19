@@ -19,47 +19,68 @@
 
 </head>
 <body ng-controller="Civila">
-<div class="grid">
-    <div ng-repeat="row in gridManager.grid.rows" class="row">
-        <div ng-repeat="civiblock in row.columns">
-            <div class="civiblock" ng-click="uiListener.selectedBlock = civiblock" ng-class="civiblock.state">
-                <div class="territory" ng-class="civiblock.territory.type"></div>
-                <div ng-if="civiblock.persona" class="persona">
-                    <i class="fa fa-user"></i>
+<div class="dashboard">
+    <div class="main">
+        <div class="main-grid-info">
+
+        </div>
+        <div class="main-grid">
+
+        </div>
+    </div>
+    <div class="controls">
+        <div class="mini-grid">
+            <div ng-repeat="row in gridManager.grid.rows" class="row">
+                <div ng-repeat="civiblock in row.columns">
+                    <div class="civiblock" ng-click="uiListener.selectedBlock = civiblock" ng-class="civiblock.state">
+                        <div class="territory" ng-class="civiblock.territory.type"></div>
+                        <div ng-if="civiblock.persona" class="persona">
+                            <i class="fa fa-user"></i>
+                        </div>
+                    </div>
+                </div>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+
+        <div class="context-info">
+            <div class="locationManagement">
+                <div ng-if="uiListener.selectedBlock">
+                    {{uiListener.selectedBlock.state}} [{{uiListener.selectedBlock.coordinates}}]
+                    <div ng-if="uiListener.selectedBlock.state != 'UNKNOWN'">
+                        Type of location : {{uiListener.selectedBlock.territory.type}}
+                        <div ng-if="uiListener.selectedBlock.persona">
+                            Name : {{uiListener.selectedBlock.persona.name}}
+                            <button ng-click="uiListener.navigateNorth(uiListener.selectedBlock)">Navigate north
+                            </button>
+                            <button ng-click="uiListener.navigateSouth(uiListener.selectedBlock)">Navigate south
+                            </button>
+                            <button ng-click="uiListener.navigateEast(uiListener.selectedBlock)">Navigate east</button>
+                            <button ng-click="uiListener.navigateWest(uiListener.selectedBlock)">Navigate west</button>
+                        </div>
+                        <span ng-if="uiListener.selectedBlock.territory.resources">RESOURCES</span>
+
+                        <div ng-repeat="resource in uiListener.selectedBlock.territory.resources" class="resource">
+                            type={{resource.resourceType}}
+                            <button ng-click="uiListener.interact(resource)">interact</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="turnActions">
+                <div ng-repeat="possibleOrder in turnManager.turn.possibleOrders" class="possibleOrder">
+                    <div ng-if="possibleOrder.definition" class="{order}">
+                        Type = {{possibleOrder.definition.type}}
+                    </div>
+                </div>
+                <div class="turnController">
+                    <button ng-click="uiListener.submitTurn()">Turn completed!</button>
                 </div>
             </div>
         </div>
-        <div style="clear: both"></div>
+
     </div>
 </div>
-
-<div class="locationManagement">
-    <div ng-if="uiListener.selectedBlock">
-        {{uiListener.selectedBlock.state}} [{{uiListener.selectedBlock.coordinates}}]
-        <div ng-if="uiListener.selectedBlock.state != 'UNKNOWN'">
-            Type of location : {{uiListener.selectedBlock.territory.type}}
-            <div ng-if="uiListener.selectedBlock.persona">
-                Name : {{uiListener.selectedBlock.persona.name}}
-                <button ng-click="uiListener.navigateNorth(uiListener.selectedBlock)">Navigate north</button>
-                <button ng-click="uiListener.navigateSouth(uiListener.selectedBlock)">Navigate south</button>
-                <button ng-click="uiListener.navigateEast(uiListener.selectedBlock)">Navigate east</button>
-                <button ng-click="uiListener.navigateWest(uiListener.selectedBlock)">Navigate west</button>
-            </div>
-        </div>
-    </div>
-</div>
-
---{{turnManager.turn}}
-<div class="turnActions">
-    <div ng-repeat="possibleOrder in turnManager.turn.possibleOrders" class="possibleOrder">
-        <div ng-if="possibleOrder.definition" class="{order}">
-            Type = {{possibleOrder.definition.type}}
-        </div>
-    </div>
-    <div class="turnController">
-        <button ng-click="uiListener.submitTurn()">Turn completed!</button>
-    </div>
-</div>
-
 </body>
 </html>

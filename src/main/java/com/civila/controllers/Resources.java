@@ -23,7 +23,7 @@ public class Resources {
 	@Path("grid")
 	@Produces("application/json")
 	public Response grid(){
-		return Response.status(200).entity(secureCiviblockService.retrieveGrid(-5, -2, 5, 2)).build();
+		return Response.status(200).entity(secureCiviblockService.retrieveGrid(-2, -2, 2, 2)).build();
 	}
 
 	@GET

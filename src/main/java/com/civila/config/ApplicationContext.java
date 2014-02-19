@@ -17,7 +17,9 @@ import com.civila.services.secure.asserts.NavigationAsserts;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Configuration
@@ -29,9 +31,17 @@ public class ApplicationContext {
 	@Bean public CiviblockDao civiblockDao() {
 		Map<Coordinates, Civiblock> data = new HashMap<>();
 		Coordinates initialLocation = new Coordinates(0, 0);
+		List<Resource> resources = new ArrayList<>();
+		resources.add(new Resource(ResourceType.MERCHANT));
+		resources.add(new Resource(ResourceType.INFORMATION));
 		data.put(
 				initialLocation,
-				new Civiblock(CiviblockStates.OCCUPIED, new Territory(TerritoryType.FARMS), new Persona("Jon doe"), initialLocation)
+				new Civiblock(
+						CiviblockStates.OCCUPIED,
+						new Territory(TerritoryType.FARMS, resources),
+						new Persona("Jon doe"),
+						initialLocation
+				)
 		);
 		return new CiviblockDao(data);
 	}
