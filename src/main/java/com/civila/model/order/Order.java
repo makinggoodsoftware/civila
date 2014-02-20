@@ -1,4 +1,4 @@
-package com.civila.model;
+package com.civila.model.order;
 
 
 import org.codehaus.jackson.annotate.JsonSubTypes;

@@ -1,7 +1,7 @@
 package com.civila.services.secure;
 
 import com.civila.aux.assertion.AssertResultProcessor;
-import com.civila.model.NavigationRequest;
+import com.civila.model.order.NavigationRequest;
 import com.civila.services.NavigationService;
 import com.civila.services.secure.asserts.NavigationAsserts;
 import com.civila.services.internal.InternalNavigationService;

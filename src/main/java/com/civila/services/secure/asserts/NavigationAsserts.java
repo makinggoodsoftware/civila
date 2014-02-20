@@ -4,7 +4,7 @@ import com.civila.aux.assertion.AssertException;
 import com.civila.aux.assertion.Assertion;
 import com.civila.aux.assertion.AssertionRunner;
 import com.civila.model.Coordinates;
-import com.civila.model.NavigationRequest;
+import com.civila.model.order.NavigationRequest;
 import com.civila.model.Persona;
 
 public class NavigationAsserts {

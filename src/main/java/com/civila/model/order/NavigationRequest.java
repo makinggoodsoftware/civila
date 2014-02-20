@@ -1,6 +1,9 @@
-package com.civila.model;
+package com.civila.model.order;
 
-public class NavigationRequest implements Order{
+import com.civila.model.Coordinates;
+import com.civila.model.Persona;
+
+public class NavigationRequest implements Order {
 	private Coordinates from;
 	private Coordinates to;
 	private Persona persona;

@@ -1,6 +1,7 @@
 function UiListener (TurnManager){
     //noinspection JSUnusedGlobalSymbols
     this.selectedBlock = null;
+    this.selectedResource = null;
     this.turnManager = TurnManager;
 }
 
@@ -40,3 +41,6 @@ UiListener.prototype.submitTurn = function (){
     this.turnManager.submitTurn();
 };
 
+UiListener.prototype.interact = function (resource){
+    this.selectedResource = resource;
+};

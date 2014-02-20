@@ -1,15 +1,16 @@
 package com.civila.model;
 
-import java.util.List;
+import com.civila.model.grid.Grid;
+import com.civila.model.resource.Resource;
 
 public class Territory {
 	private TerritoryType type;
-	private List<Resource> resources;
+	private Grid<Resource> resources;
 
 	public Territory() {
 	}
 
-	public Territory(TerritoryType type, List<Resource> resources) {
+	public Territory(TerritoryType type, Grid<Resource> resources) {
 		this.type = type;
 		this.resources = resources;
 	}
@@ -22,11 +23,11 @@ public class Territory {
 		this.type = type;
 	}
 
-	public List<Resource> getResources() {
+	public Grid<Resource> getResources() {
 		return resources;
 	}
 
-	public void setResources(List<Resource> resources) {
+	public void setResources(Grid<Resource> resources) {
 		this.resources = resources;
 	}
 }

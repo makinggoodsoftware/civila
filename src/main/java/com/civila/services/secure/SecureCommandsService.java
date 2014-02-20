@@ -1,6 +1,6 @@
 package com.civila.services.secure;
 
-import com.civila.model.NavigationRequest;
+import com.civila.model.order.NavigationRequest;
 import com.civila.model.Turn;
 import com.civila.services.CommandsService;
 

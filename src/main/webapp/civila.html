@@ -22,10 +22,17 @@
 <div class="dashboard">
     <div class="main">
         <div class="main-grid-info">
-
+            <div ng-if="uiListener.selectedResource">
+                --{{uiListener.selectedResource}}
+            </div>
         </div>
         <div class="main-grid">
-
+            <div ng-repeat="resourceRow in uiListener.selectedBlock.territory.resources.rows" class="resourceRow">
+                <div ng-repeat="resource in resourceRow.columns track by $index" class="resource">
+                    <button ng-if="resource" ng-click="uiListener.interact(resource)">{{resource.resourceType}}</button>
+                </div>
+                <div style="clear: both"></div>
+            </div>
         </div>
     </div>
     <div class="controls">
@@ -59,11 +66,6 @@
                             <button ng-click="uiListener.navigateWest(uiListener.selectedBlock)">Navigate west</button>
                         </div>
                         <span ng-if="uiListener.selectedBlock.territory.resources">RESOURCES</span>
-
-                        <div ng-repeat="resource in uiListener.selectedBlock.territory.resources" class="resource">
-                            type={{resource.resourceType}}
-                            <button ng-click="uiListener.interact(resource)">interact</button>
-                        </div>
                     </div>
                 </div>
             </div>

@@ -5,6 +5,11 @@ import com.civila.controllers.Actions;
 import com.civila.controllers.Resources;
 import com.civila.dao.CiviblockDao;
 import com.civila.model.*;
+import com.civila.model.grid.Grid;
+import com.civila.model.grid.GridContentProvider;
+import com.civila.model.resource.Information;
+import com.civila.model.resource.Merchant;
+import com.civila.model.resource.Resource;
 import com.civila.services.internal.InternalCiviblockService;
 import com.civila.services.internal.InternalNavigationService;
 import com.civila.services.internal.WorldCreator;
@@ -17,9 +22,7 @@ import com.civila.services.secure.asserts.NavigationAsserts;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Configuration
@@ -31,9 +34,14 @@ public class ApplicationContext {
 	@Bean public CiviblockDao civiblockDao() {
 		Map<Coordinates, Civiblock> data = new HashMap<>();
 		Coordinates initialLocation = new Coordinates(0, 0);
-		List<Resource> resources = new ArrayList<>();
-		resources.add(new Resource(ResourceType.MERCHANT));
-		resources.add(new Resource(ResourceType.INFORMATION));
+		Grid<Resource> resources = new Grid<>(5, 5, new GridContentProvider<Resource>() {
+			@Override
+			public Resource forCoordinates(int x, int y) {
+				if (x==0 && y ==0) return new Merchant("Basic weapons merchant");
+				if (x==0 && y ==1) return new Information("Goblin expert");
+				return null;
+			}
+		});
 		data.put(
 				initialLocation,
 				new Civiblock(

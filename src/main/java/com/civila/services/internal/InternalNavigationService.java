@@ -1,6 +1,7 @@
 package com.civila.services.internal;
 
 import com.civila.model.*;
+import com.civila.model.order.NavigationRequest;
 import com.civila.services.NavigationService;
 
 public class InternalNavigationService implements NavigationService{
