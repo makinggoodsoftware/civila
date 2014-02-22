@@ -41,6 +41,14 @@ UiListener.prototype.submitTurn = function (){
     this.turnManager.submitTurn();
 };
 
-UiListener.prototype.interact = function (resource){
+UiListener.prototype.selectInteractable = function (resource){
     this.selectedResource = resource;
 };
+
+UiListener.prototype.interact = function (interactable){
+    this.turnManager.addCommand (interactable);
+};
+
+UiListener.prototype.display = function (toDisplay){
+    $('#' + toDisplay).dialog();
+}

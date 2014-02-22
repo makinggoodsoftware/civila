@@ -3,6 +3,8 @@ package com.civila.model.resource;
 import org.codehaus.jackson.annotate.JsonSubTypes;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 
+import java.util.List;
+
 @JsonTypeInfo(
 	use = JsonTypeInfo.Id.NAME,
 	include= JsonTypeInfo.As.PROPERTY,
@@ -17,4 +19,6 @@ public interface Resource {
 	ResourceType getResourceType();
 
 	String getDescription();
+
+	List<Interactable> getInteractables();
 }

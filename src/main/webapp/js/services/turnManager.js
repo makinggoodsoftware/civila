@@ -20,8 +20,10 @@ TurnManager.prototype.submitTurn = function (){
 
 TurnManager.prototype.resetTurn = function(){
     var _this = this;
-    this.$http.get("/rest/current/turn").
+    var promise = this.$http.get("/rest/current/turn");
+    promise.
         success(function (data) {
             _this.turn = data;
         });
+    return promise;
 };

@@ -4,8 +4,12 @@
     <title>Civila</title>
 
     <link rel="stylesheet/less" href="css/styles.less"/>
-    <link href="includes/font-awesome-4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href="includes/font-awesome-4.0.3/css/font-awesome.css" rel="stylesheet"/>
+    <link href="includes/js/jquery-ui-1.10.4/themes/base/jquery-ui.css"/>
+    <link rel="stylesheet" href="css/jquery-ui-custom.css"/>
 
+    <script src="includes/js/jquery.js"></script>
+    <script src="includes/js/jquery-ui-1.10.4/ui/jquery-ui.js"></script>
     <script src="includes/js/angular.js"></script>
     <script src="includes/js/less.js"></script>
 
@@ -20,16 +24,24 @@
 </head>
 <body ng-controller="Civila">
 <div class="dashboard">
+    <div class="menu">
+        <button ng-click="uiListener.display('quests')" class="menu-item">Quests</button>
+    </div>
     <div class="main">
         <div class="main-grid-info">
+            Adventure time: {{turnManager.turn.daysOfAdventure}} days
             <div ng-if="uiListener.selectedResource">
-                --{{uiListener.selectedResource}}
+                <h2>{{uiListener.selectedResource.resourceType}}</h2>
+                <p>{{uiListener.selectedResource.name}}</p>
+                <div ng-repeat="interactable in uiListener.selectedResource.interactables" class="interactable">
+                    <button ng-click="uiListener.interact(interactable)">Cost: {{interactable.costInDays}} - {{interactable.interactionDescription}}</button>
+                </div>
             </div>
         </div>
         <div class="main-grid">
             <div ng-repeat="resourceRow in uiListener.selectedBlock.territory.resources.rows" class="resourceRow">
                 <div ng-repeat="resource in resourceRow.columns track by $index" class="resource">
-                    <button ng-if="resource" ng-click="uiListener.interact(resource)">{{resource.resourceType}}</button>
+                    <button ng-if="resource" ng-click="uiListener.selectInteractable(resource)">{{resource.resourceType}}</button>
                 </div>
                 <div style="clear: both"></div>
             </div>
@@ -84,5 +96,16 @@
 
     </div>
 </div>
+
+<div id="quests" title="Quests" style="display: none">
+    sfsfsdf
+    <div ng-repeat="quest in turnManager.turn.quests" class="quest">
+        <div>{{quest.name}}</div>
+        <div>{{quest.shortDescription}}</div>
+        <div>{{quest.objective}}</div>
+        <div>{{<quest class="timeLimitInDays"></quest>}}</div>
+    </div>
+</div>
+
 </body>
 </html>

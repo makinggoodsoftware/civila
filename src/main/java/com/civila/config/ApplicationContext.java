@@ -8,6 +8,7 @@ import com.civila.model.*;
 import com.civila.model.grid.Grid;
 import com.civila.model.grid.GridContentProvider;
 import com.civila.model.resource.Information;
+import com.civila.model.resource.Interactable;
 import com.civila.model.resource.Merchant;
 import com.civila.model.resource.Resource;
 import com.civila.services.internal.InternalCiviblockService;
@@ -22,7 +23,9 @@ import com.civila.services.secure.asserts.NavigationAsserts;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Configuration
@@ -37,8 +40,10 @@ public class ApplicationContext {
 		Grid<Resource> resources = new Grid<>(5, 5, new GridContentProvider<Resource>() {
 			@Override
 			public Resource forCoordinates(int x, int y) {
-				if (x==0 && y ==0) return new Merchant("Basic weapons merchant");
-				if (x==0 && y ==1) return new Information("Goblin expert");
+				List<Interactable> interactables = new ArrayList<>();
+				interactables.add(new Interactable(1, "Learn more about goblins!"));
+				if (x==0 && y ==0) return new Merchant("Basic weapons merchant", new ArrayList<Interactable>());
+				if (x==0 && y ==1) return new Information("Goblin expert", interactables);
 				return null;
 			}
 		});

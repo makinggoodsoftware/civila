@@ -1,6 +1,12 @@
-function Civila($scope, UiListener, GridManager, TurnManager) {
-    GridManager.rebuildGrid();
-    TurnManager.resetTurn();
+function Civila($scope, $q, UiListener, GridManager, TurnManager) {
+    $q.all(
+        GridManager.rebuildGrid(),
+        TurnManager.resetTurn()
+    ).then(
+        function (){
+            UiListener.selectedBlock = GridManager.getBlock(0, 0);
+        }
+    );
 
     $scope.gridManager = GridManager;
     $scope.uiListener = UiListener;
