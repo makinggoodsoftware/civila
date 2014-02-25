@@ -97,13 +97,12 @@
     </div>
 </div>
 
-<div id="quests" title="Quests" style="display: none">
-    sfsfsdf
+<div id="quests" title="Quests" style="display: none" class="dialog">
     <div ng-repeat="quest in turnManager.turn.quests" class="quest">
-        <div>{{quest.name}}</div>
+        <b><div>{{quest.name}}</div></b>
         <div>{{quest.shortDescription}}</div>
         <div>{{quest.objective}}</div>
-        <div>{{<quest class="timeLimitInDays"></quest>}}</div>
+        <div>{{quest.timeLimitInDays}} days remaining</div>
     </div>
 </div>
 
