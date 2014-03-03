@@ -1,6 +1,7 @@
 package com.civila.services.internal;
 
 import com.civila.model.*;
+import com.civila.model.grid.GridCell;
 import com.civila.model.order.NavigationRequest;
 import com.civila.services.NavigationService;
 
@@ -19,8 +20,8 @@ public class InternalNavigationService implements NavigationService{
 		Coordinates to = navigationRequest.getTo();
 		Persona personaToMove = navigationRequest.getPersona();
 
-		Civiblock fromBlock = this.internalCiviblockService.produceCiviblock(from);
-		Civiblock toBlock = this.internalCiviblockService.produceCiviblock(to);
+		GridCell fromBlock = this.internalCiviblockService.produceCiviblock(from);
+		GridCell toBlock = this.internalCiviblockService.produceCiviblock(to);
 
 		if (toBlock.isUnknown()){
 			toBlock = this.worldCreator.createBlock (to);

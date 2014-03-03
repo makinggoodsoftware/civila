@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'war'
+apply plugin: 'groovy'
 
 //noinspection GroovyUnusedAssignment
 sourceCompatibility = 1.7
@@ -23,4 +24,5 @@ dependencies {
     compile group : 'com.sun.jersey.contribs', name: 'jersey-spring', version: '1.9.1'
     compile group : 'com.sun.jersey', name: 'jersey-json', version: '1.9.1'
     compile "org.codehaus.groovy:groovy-all:1.8.0-rc-4"
+    compile group: 'com.google.guava', name: 'guava', version: '12.0'
 }

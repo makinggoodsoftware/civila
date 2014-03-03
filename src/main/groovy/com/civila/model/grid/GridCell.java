@@ -1,21 +1,26 @@
-package com.civila.model;
+package com.civila.model.grid;
 
-public class Civiblock {
+import com.civila.model.CiviblockStates;
+import com.civila.model.Coordinates;
+import com.civila.model.GridContent;
+import com.civila.model.Persona;
+
+public class GridCell {
 	private Coordinates coordinates;
 	private CiviblockStates state;
-	private Territory territory;
+	private GridContent gridContent;
 	private Persona persona;
 
-	public static Civiblock empty(Coordinates coordinate){
-		return new Civiblock(CiviblockStates.UNKNOWN, null, null, coordinate);
+	public static GridCell empty(Coordinates coordinate){
+		return new GridCell(CiviblockStates.UNKNOWN, null, null, coordinate);
 	}
 
-	public Civiblock() {
+	public GridCell() {
 	}
 
-	public Civiblock(CiviblockStates state, Territory territory, Persona persona, Coordinates coordinates) {
+	public GridCell(CiviblockStates state, GridContent gridContent, Persona persona, Coordinates coordinates) {
 		this.state = state;
-		this.territory = territory;
+		this.gridContent = gridContent;
 		this.persona = persona;
 		this.coordinates = coordinates;
 	}
@@ -48,12 +53,12 @@ public class Civiblock {
 		this.state = state;
 	}
 
-	public Territory getTerritory() {
-		return territory;
+	public GridContent getGridContent() {
+		return gridContent;
 	}
 
-	public void setTerritory(Territory territory) {
-		this.territory = territory;
+	public void setGridContent(GridContent gridContent) {
+		this.gridContent = gridContent;
 	}
 
 	public Persona getPersona() {

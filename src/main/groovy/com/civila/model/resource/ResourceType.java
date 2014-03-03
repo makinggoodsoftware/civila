@@ -1,5 +1,5 @@
 package com.civila.model.resource;
 
 public enum ResourceType {
-	INFORMATION, MERCHANT
+	INFORMATION, CITY, MERCHANT
 }

@@ -10,14 +10,14 @@ class CityTest extends Specification {
         def city = new City(
                 'name': "Alberta",
                 'influence': new Surface('width': 8, 'height': 10),
-                'walled': new PlacedCityBlock(
+                'walled': new PlacedCityElement(
                         'relativeToParentAnchorPoint': new Coordinates('x': 2, 'y': 3),
-                        'cityBlock': new Division(
+                        cityElement: new Division(
                                 'surface': new Surface('width': 6, 'height': 5),
                                 'blocks': [
-                                        new PlacedCityBlock(
+                                        new PlacedCityElement(
                                                 'relativeToParentAnchorPoint': new Coordinates('x': 1, 'y': 1),
-                                                'cityBlock': new Division(
+                                                cityElement: new Division(
                                                         'controller': Faction.MAGES,
                                                         'surface': new Surface('width': 2, 'height': 2),
                                                         'blocks': [
@@ -28,9 +28,9 @@ class CityTest extends Specification {
                                                         ]
                                                 ),
                                         ),
-                                        new PlacedCityBlock(
+                                        new PlacedCityElement(
                                                 'relativeToParentAnchorPoint': new Coordinates('x': 3, 'y': 1),
-                                                'cityBlock': new Division(
+                                                cityElement: new Division(
                                                         'controller': Faction.DIPLOMATS,
                                                         'surface': new Surface('width': 2, 'height': 2),
                                                         'blocks': [
@@ -41,9 +41,9 @@ class CityTest extends Specification {
                                                         ]
                                                 ),
                                         ),
-                                        new PlacedCityBlock(
+                                        new PlacedCityElement(
                                                 'relativeToParentAnchorPoint': new Coordinates('x': 5, 'y': 1),
-                                                'cityBlock': new Division(
+                                                cityElement: new Division(
                                                         'controller': Faction.MERCHANTS,
                                                         'surface': new Surface('width': 2, 'height': 2),
                                                         'blocks': [
@@ -54,9 +54,9 @@ class CityTest extends Specification {
                                                         ]
                                                 ),
                                         ),
-                                        new PlacedCityBlock(
+                                        new PlacedCityElement(
                                                 'relativeToParentAnchorPoint': new Coordinates('x': 1, 'y': 3),
-                                                'cityBlock': new Division(
+                                                cityElement: new Division(
                                                         'controller': Faction.KNIGHTS,
                                                         'surface': new Surface('width': 2, 'height': 2),
                                                         'blocks': [
@@ -67,9 +67,9 @@ class CityTest extends Specification {
                                                         ]
                                                 ),
                                         ),
-                                        new PlacedCityBlock(
+                                        new PlacedCityElement(
                                                 'relativeToParentAnchorPoint': new Coordinates('x': 3, 'y': 3),
-                                                'cityBlock': new Division(
+                                                cityElement: new Division(
                                                         'controller': Faction.CENTRAL,
                                                         'surface': new Surface('width': 4, 'height': 2),
                                                         'blocks': [
@@ -84,9 +84,9 @@ class CityTest extends Specification {
                                                         ]
                                                 ),
                                         ),
-                                        new PlacedCityBlock(
+                                        new PlacedCityElement(
                                                 'relativeToParentAnchorPoint': new Coordinates('x': 1, 'y': 5),
-                                                'cityBlock': new Division(
+                                                cityElement: new Division(
                                                         'controller': Faction.FARMERS,
                                                         'surface': new Surface('width': 6, 'height': 1),
                                                         'blocks': [
@@ -103,9 +103,9 @@ class CityTest extends Specification {
                         )
                 ),
                 'unwalled' : [
-                        new PlacedCityBlock(
+                        new PlacedCityElement(
                                 'relativeToParentAnchorPoint': new Coordinates('x': 4, 'y': 1),
-                                'cityBlock': new Division(
+                                cityElement: new Division(
                                         'surface': new Surface('width': 2, 'height': 2),
                                         'blocks': [
                                                 new Building(type: BuildingType.HOUSE),
@@ -115,9 +115,9 @@ class CityTest extends Specification {
                                         ]
                                 ),
                         ),
-                        new PlacedCityBlock(
+                        new PlacedCityElement(
                                 'relativeToParentAnchorPoint': new Coordinates('x': 3, 'y': 9),
-                                'cityBlock': new Division(
+                                cityElement: new Division(
                                         'surface': new Surface('width': 4, 'height': 2),
                                         'blocks': [
                                                 new Building(type: BuildingType.HOUSE),

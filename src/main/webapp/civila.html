@@ -22,7 +22,7 @@
     <script src="js/civilaMain.js"></script>
 
 </head>
-<body ng-controller="Civila">
+<body ng-controller="Civila" ng-keyup="gridManager.onKeyPress(cell, $event)">
 <div class="dashboard">
     <div class="menu">
         <button ng-click="uiListener.display('quests')" class="menu-item">Quests</button>
@@ -39,35 +39,22 @@
             </div>
         </div>
         <div class="main-grid">
-            <div ng-repeat="resourceRow in uiListener.selectedBlock.territory.resources.rows" class="resourceRow">
-                <div ng-repeat="resource in resourceRow.columns track by $index" class="resource">
-                    <button ng-if="resource" ng-click="uiListener.selectInteractable(resource)">{{resource.resourceType}}</button>
+            <div ng-repeat="row in gridManager.grid.rows" class="resourceRow">
+                <div ng-repeat="cell in row.columns track by $index" class="resource"
+                     ng-click="gridManager.select(cell)">
+                    <div ng-class="gridManager.cellClassFor(cell)">{{cell.selected}}</div>
                 </div>
                 <div style="clear: both"></div>
             </div>
         </div>
     </div>
     <div class="controls">
-        <div class="mini-grid">
-            <div ng-repeat="row in gridManager.grid.rows" class="row">
-                <div ng-repeat="civiblock in row.columns">
-                    <div class="civiblock" ng-click="uiListener.selectedBlock = civiblock" ng-class="civiblock.state">
-                        <div class="territory" ng-class="civiblock.territory.type"></div>
-                        <div ng-if="civiblock.persona" class="persona">
-                            <i class="fa fa-user"></i>
-                        </div>
-                    </div>
-                </div>
-                <div style="clear: both"></div>
-            </div>
-        </div>
-
         <div class="context-info">
             <div class="locationManagement">
                 <div ng-if="uiListener.selectedBlock">
                     {{uiListener.selectedBlock.state}} [{{uiListener.selectedBlock.coordinates}}]
                     <div ng-if="uiListener.selectedBlock.state != 'UNKNOWN'">
-                        Type of location : {{uiListener.selectedBlock.territory.type}}
+                        Type of location : {{uiListener.selectedBlock.gridContent.type}}
                         <div ng-if="uiListener.selectedBlock.persona">
                             Name : {{uiListener.selectedBlock.persona.name}}
                             <button ng-click="uiListener.navigateNorth(uiListener.selectedBlock)">Navigate north
@@ -77,7 +64,7 @@
                             <button ng-click="uiListener.navigateEast(uiListener.selectedBlock)">Navigate east</button>
                             <button ng-click="uiListener.navigateWest(uiListener.selectedBlock)">Navigate west</button>
                         </div>
-                        <span ng-if="uiListener.selectedBlock.territory.resources">RESOURCES</span>
+                        <span ng-if="uiListener.selectedBlock.gridContent.resources">RESOURCES</span>
                     </div>
                 </div>
             </div>
