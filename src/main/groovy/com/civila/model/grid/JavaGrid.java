@@ -4,10 +4,10 @@ package com.civila.model.grid;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Grid<T> {
+public class JavaGrid<T> {
 	private final List<Row> rows = new ArrayList<>();
 
-	public Grid(int numOfRows, int numOfCols, GridContentProvider<T> gridContentProvider) {
+	public JavaGrid(int numOfRows, int numOfCols, GridContentProvider<T> gridContentProvider) {
 		for (int y = 0; y < numOfRows; y++){
 			rows.add(new Row<>(y, numOfCols, gridContentProvider));
 		}

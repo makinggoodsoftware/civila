@@ -1,5 +1,7 @@
 package com.civila.controllers;
 
+import com.civila.data.cities.Titani;
+import com.civila.model.twoD.TwoDPoint;
 import com.civila.services.secure.SecureCiviblockService;
 import com.civila.services.secure.SecureTurnService;
 
@@ -31,6 +33,13 @@ public class Resources {
 	@Produces("application/json")
 	public Response turn(){
 		return Response.status(200).entity(secureTurnService.retrieveCurrentTurn()).build();
+	}
+
+	@GET
+	@Path("titani")
+	@Produces("application/json")
+	public Response titani(){
+		return Response.status(200).entity(new Titani().build().getRenderValue().getContent(new TwoDPoint())).build();
 	}
 
 }

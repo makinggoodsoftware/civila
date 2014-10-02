@@ -1,10 +1,9 @@
 package com.civila.services.secure;
 
-import com.civila.aux.assertion.AssertResultProcessor;
 import com.civila.model.order.NavigationRequest;
 import com.civila.services.NavigationService;
-import com.civila.services.secure.asserts.NavigationAsserts;
 import com.civila.services.internal.InternalNavigationService;
+import com.civila.services.secure.asserts.NavigationAsserts;
 
 public class SecureNavigationService implements NavigationService {
 	private final InternalNavigationService internalNavigationService;
@@ -18,12 +17,7 @@ public class SecureNavigationService implements NavigationService {
 	@Override
 	public void navigate(final NavigationRequest navigationRequest) {
 		navigationAsserts.assertNavigationIsLegal(navigationRequest).then(
-			new AssertResultProcessor() {
-				@Override
-				public void execute() {
-					internalNavigationService.navigate (navigationRequest);
-				}
-			}
+			() -> internalNavigationService.navigate (navigationRequest)
 		);
 	}
 

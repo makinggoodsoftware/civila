@@ -34,11 +34,11 @@ public class DataInitialiser {
 
 	private Map<Coordinates, Building> mapCityIntoCoordinates(City city, Coordinates initialOffset){
 		Map<Coordinates, Building> mappedCity = Maps.newHashMap();
-		for (int x=0; x<city.getInfluence().getWidth(); x++){
-			for (int y=0; x<city.getInfluence().getHeight(); y++){
-				mappedCity.put(new Coordinates(x, y), null);
-			}
-		}
+//		for (int x=0; x<city.getInfluence().getWidth(); x++){
+//			for (int y=0; y<city.getInfluence().getHeight(); y++){
+//				mappedCity.put(new Coordinates(x, y), null);
+//			}
+//		}
 		Iterable<PlacedCityElement> allCityBlocks = concat(city.getUnwalled(), newArrayList(city.getWalled()));
 		for (PlacedCityElement placedCityElement : allCityBlocks) {
 			recursivelyMap(mappedCity, placedCityElement, initialOffset);

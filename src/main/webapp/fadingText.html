@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Collab</title>
+    <script>
+        window.addEventListener("load", function (){app()}, false);
+
+        function app (){
+            var canvas = document.getElementById("canvas");
+            var context = canvas.getContext("2d");
+
+            function drawScreen(alphaText) {
+                context.fillText("Hello world", 250, 100);
+                context.globalAlpha = 1;
+                context.fillStyle = "#000000";
+                context.fillRect(0,0,640,480);
+
+                context.globalAlpha = alphaText;
+                context.font = "72px Sans-Serif";
+                context.textBaseline = "top";
+                context.fillStyle = "#FFFFFF";
+                context.fillText("Hello Esther", 150, 200)
+
+            }
+
+            function gameLoop (fadeIn, alpha){
+                if (alpha>1){
+                    fadeIn = false
+                    alpha = 1
+                }
+                if (alpha<0){
+                    fadeIn = true
+                    alpha = 0
+                }
+
+                var nextAlpha = fadeIn ? alpha + .01 : alpha - .01;
+
+                setTimeout(function (){gameLoop (fadeIn, nextAlpha)}, 100);
+                drawScreen(alpha);
+            }
+
+            gameLoop (true, 0.0);
+        }
+    </script>
+</head>
+<body style="margin: 0; padding: 0">
+    <canvas id="canvas" width="640" height="480">
+        Canvas not supported in your browser
+    </canvas>
+</body>
+</html>

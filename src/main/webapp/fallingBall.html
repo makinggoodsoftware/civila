@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CH5EX1: Moving On A Simple Line</title>
+    <script type="text/javascript">
+        window.addEventListener('load', eventWindowLoaded, false);
+
+        function Position (x, y){
+            this.x = x;
+            this.y = y;
+        }
+
+        function Vector(sideX, sideY){
+            this.sideX = sideX;
+            this.sideY = sideY;
+        }
+
+        function Momentum (direction, velocity){
+            this.direction = direction;
+            this.velocity = velocity;
+        }
+
+        function Vectors (){
+            this.length = function (vector){
+                return Math.sqrt((Math.pow(vector.sideX, 2))+(Math.pow(vector.sideY,2)));
+            };
+
+            this.withLength = function (vector, newLength){
+                var currentLength = this.length(vector);
+                var lengthFactor = currentLength / newLength;
+                return new Vector(
+                    vector.sideX / lengthFactor,
+                    vector.sideY / lengthFactor
+                );
+            };
+        }
+
+        function Circle (radius){
+            this.radius = radius;
+        }
+
+        function AnimatorFluentObject (animator, toAnimate){
+            this.animator = animator;
+            this.toAnimate = toAnimate;
+
+            this.withMomentum = function (direction, speed){
+                return this.animator.addMomentum(this.toAnimate, direction, speed);
+            };
+
+            this.nextPosition = function (){
+                return this.animator.nextPosition (this.toAnimate);
+            };
+        }
+
+        function Shaper (){
+            this.arc = function (context, position, toDraw){
+                context.fillStyle = "#000000";
+                context.beginPath();
+                context.arc(position.x, position.y, toDraw.radius, 0, Math.PI * 2, true);
+                context.closePath();
+                context.fill();
+            }
+        }
+
+        function Animator (vectors, context){
+            this.vectors = vectors;
+            this.lastAnimatedObjectId = 0;
+            this.context = context;
+
+            this.animatedObjects = {};
+
+            this.animate = function (target, position, drawer){
+                target.animatedObjectId = ++this.lastAnimatedObjectId;
+                target.position = position;
+                target.shaper = drawer;
+                this.animatedObjects[target.animatedObjectId] = target;
+                return new AnimatorFluentObject(this, target);
+            };
+
+            this.addMomentum = function (target, direction, speed){
+                var validTarget = this.assertTarget (target);
+
+                validTarget.momentum = new Momentum(
+                    direction,
+                    this.vectors.withLength(direction, speed)
+                );
+                return new AnimatorFluentObject(this, validTarget);
+            };
+
+            this.nextPosition = function (target){
+                var validTarget = this.assertTarget (target);
+                return new Position (
+                    validTarget.position.x + validTarget.momentum.velocity.sideX,
+                    validTarget.position.y + validTarget.momentum.velocity.sideY
+                );
+            };
+
+            this.assertTarget = function (target){
+                var actualTarget = target.toAnimate ? target.toAnimate : target;
+                if (!this.animatedObjects[actualTarget.animatedObjectId]) throw new Error("Can't add momentum to an object with no position!");
+                return actualTarget;
+            };
+
+            this.draw = function (){
+                for (var i=0; i<this.animatedObjects; i++){
+                    var toAnimate = this.animatedObjects[i];
+                    toAnimate.shaper (this.context, toAnimate.position, toAnimate);
+                }
+            }
+        }
+
+        function Tester (){
+            var shaper = new Shaper();
+            var vectors = new Vectors();
+            var animator = new Animator(vectors);
+
+            var animatedObject = animator.
+                    animate(new Circle(10), new Position(50, 50), shaper.arc).
+                    withMomentum(new Vector(1, 1), 1);
+            var nextState = animatedObject.nextPosition();
+            if (nextState.x != 51 || nextState.y != 51){
+                alert(JSON.stringify(nextState));
+            }else{
+                alert("seems OK");
+            }
+        }
+
+        new Tester();
+
+        function CollisionDetector() {
+            this.innerWalls = function (container, toCheck, callback) {
+                for (var i=0; i< toCheck.length; i++){
+                    var collisionObject = toCheck[i];
+                    var boundaries = collisionObject.boundaries;
+
+                    var collision = false;
+
+                    if (container.bottomLeft.y <= boundaries.bottomLeft.y) {
+                        if (callback.bottomCollision) callback.bottomCollision(collisionObject);
+                        if (callback.verticalCollision) callback.verticalCollision(collisionObject);
+                        collision = true;
+                    }
+                    if (container.topLeft.y >= boundaries.topLeft.y) {
+                        if (callback.topCollision) callback.topCollision(collisionObject);
+                        if (callback.verticalCollision) callback.verticalCollision(collisionObject);
+                        collision = true;
+                    }
+                    if (container.topLeft.x >= boundaries.topLeft.x) {
+                        if (callback.leftCollision) callback.leftCollision(collisionObject);
+                        if (callback.horizontalCollision) callback.horizontalCollision(collisionObject);
+                        collision = true;
+                    } if (container.topRight.x <= boundaries.topRight.x) {
+                        if (callback.rightCollision) callback.rightCollision(collisionObject);
+                        if (callback.horizontalCollision) callback.horizontalCollision(collisionObject);
+                        collision = true;
+                    }
+
+                    if (!collision) {
+                        if (callback.inside) callback.inside(collisionObject);
+                    }
+                }
+            };
+
+            this.movingCollision = function (objects, callback){
+                for (var i=0; i< objects.length; i++){
+                    var thisCollisionObject = objects[i];
+                    var thisBoundaries = thisCollisionObject.boundaries;
+
+                    for (var j=i+1; j< objects.length; j++){
+                        var otherCollisionObject = objects[j];
+                        var otherBoundaries = otherCollisionObject.boundaries;
+
+                        var coordinate1 = thisBoundaries.center;
+                        var coordinate2 = otherBoundaries.center;
+
+                        var xLength = coordinate1.x - coordinate2.x;
+                        var yLength = coordinate1.y - coordinate2.y;
+                        var xLengthAbs = Math.abs(xLength);
+                        var yLengthAbs = Math.abs(yLength);
+                        var length = Math.sqrt(Math.pow(xLengthAbs, 2) + Math.pow(yLengthAbs, 2));
+
+                        if ((thisBoundaries.radius + otherBoundaries.radius) >= length){
+                            callback.onCollision(thisCollisionObject, otherCollisionObject, xLength, yLength);
+                        }
+                    }
+                }                
+            }
+        }
+
+        function Ball(x, y, radius, vectorX, vectorY, speed, pointImg) {
+            this.points = [];
+            this.pointImg = pointImg;
+
+            this.calculateSpeed = function (vectorX, vectorY, speedPerFrame){
+                var baseSpeed = Math.sqrt((Math.pow(vectorX, 2))+(Math.pow(vectorY,2)));
+                var speedFactor = baseSpeed / speedPerFrame;
+                return {
+                    vectorX: vectorX,
+                    vectorY: vectorY,
+                    baseSpeed: baseSpeed,
+                    speedPerFrame: speedPerFrame,
+                    speedFactor: speedFactor,
+                    perFrameSpeedX: vectorX / speedFactor,
+                    perFrameSpeedY: vectorY / speedFactor
+                }
+            };
+
+            this.speed = this.calculateSpeed(vectorX, vectorY, speed);
+
+            this.calculateBoundaries = function (x, y, radius) {
+                return {
+                    center: {x:x, y:y},
+                    radius: radius,
+                    topLeft: {
+                        x: x - radius,
+                        y: y - radius
+                    },
+                    topRight: {
+                        x: x + radius,
+                        y: y - radius
+                    },
+                    bottomLeft: {
+                        x: x - radius,
+                        y: y + radius
+                    },
+                    bottomRight: {
+                        x: x + radius,
+                        y: y + radius
+                    }
+                }
+            };
+
+            this.boundaries = this.calculateBoundaries(x, y, radius);
+
+            this.nextPosition = function () {
+                return {x: this.boundaries.center.x + this.speed.perFrameSpeedX, y: this.boundaries.center.y + this.speed.perFrameSpeedY}
+            };
+
+            this.move = function () {
+                this.points.push({x: this.x, y: this.y});
+                var nextState = this.nextPosition();
+                this.boundaries = this.calculateBoundaries(nextState.x, nextState.y, this.boundaries.radius);
+            };
+
+            this.draw = function (context) {
+                context.fillStyle = "#000000";
+                context.beginPath();
+                context.arc(this.boundaries.center.x, this.boundaries.center.y, this.boundaries.radius, 0, Math.PI * 2, true);
+                context.closePath();
+                context.fill();
+            };
+
+            this.stop = function () {
+                this.vectorY = 0;
+            }
+        }
+
+        function Frame(canvas) {
+            this.canvas = canvas;
+            this.boundaries = null;
+
+            this.draw = function (context) {
+                context.fillStyle = '#EEEEEE';
+                context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                //Box
+                context.strokeStyle = '#000000';
+                context.strokeRect(1, 1, this.canvas.width - 2, this.canvas.height - 2);
+                this.boundaries = this.calculateBoundaries(this.canvas.width, this.canvas.height);
+            };
+
+            this.calculateBoundaries = function (width, height) {
+                return {
+                    topLeft: {
+                        x: 0,
+                        y: 0
+                    },
+                    topRight: {
+                        x: width,
+                        y: 0
+                    },
+                    bottomLeft: {
+                        x: 0,
+                        y: height
+                    },
+                    bottomRight: {
+                        x: width,
+                        y: height
+                    }
+                }
+            };
+        }
+
+        function eventWindowLoaded() {
+            app();
+        }
+
+        function app() {
+            function drawScreen(context, frame, movingObjects) {
+                frame.draw(context);
+                for (var i=0; i<movingObjects.length; i++){
+                    var movingObject = movingObjects[i];
+                    movingObject.draw(context);
+                }
+            }
+            var UP = 38;
+            var DOWN = 40;
+            var LEFT = 37;
+            var RIGHT = 39;
+
+            var keysPressed = {};
+            document.onkeydown=function(e){
+                e=e?e:window.event;
+                console.info("down for: " + e.keyCode);
+                keysPressed[e.keyCode]=true;
+            };
+
+            document.onkeyup=function(e){
+                e=e?e:window.event;
+                console.info("up for: " + e.keyCode);
+                keysPressed[e.keyCode]=false;
+            };
+
+            var canvas = document.getElementById('canvasOne');
+            var context = canvas.getContext('2d');
+            var pointImage = new Image();
+            pointImage.src = "img/point.png";
+
+            var userControlledBall = new Ball(400, 50, 10, 0, 0, 0, pointImage);
+            var balls = [
+                new Ball(250, 250, 15, 16, 8, 10, pointImage),
+                new Ball(200, 0, 25, 2, 7, 8, pointImage),
+                userControlledBall
+            ];
+            var frame = new Frame(canvas);
+            var collisionDetector = new CollisionDetector();
+
+            setInterval(function () {
+                drawScreen(context, frame, balls);
+
+                collisionDetector.innerWalls(
+                        frame.boundaries, 
+                        balls,
+                        {
+                            verticalCollision: function (collisionObject) {
+                                collisionObject.speed = collisionObject.calculateSpeed (collisionObject.speed.vectorX, - collisionObject.speed.vectorY, collisionObject.speed.speedPerFrame);
+                            },
+                            horizontalCollision: function (collisionObject) {
+                                collisionObject.speed = collisionObject.calculateSpeed (-collisionObject.speed.vectorX, collisionObject.speed.vectorY, collisionObject.speed.speedPerFrame);
+                            },
+                            bottomCollision: function (collisionObject){
+                                collisionObject.boundaries = collisionObject.calculateBoundaries(
+                                        collisionObject.boundaries.center.x,
+                                        frame.boundaries.bottomLeft.y - collisionObject.boundaries.radius,
+                                        collisionObject.boundaries.radius
+                                )
+                            },
+                            topCollision: function (collisionObject){
+                                collisionObject.boundaries = collisionObject.calculateBoundaries(
+                                        collisionObject.boundaries.center.x,
+                                        0 + collisionObject.boundaries.radius,
+                                        collisionObject.boundaries.radius
+                                )
+                            },
+                            leftCollision: function (collisionObject){
+                                collisionObject.boundaries = collisionObject.calculateBoundaries(
+                                        0 + collisionObject.boundaries.radius,
+                                        collisionObject.boundaries.center.y,
+                                        collisionObject.boundaries.radius
+                                )
+                            },
+                            rightCollision: function (collisionObject){
+                                collisionObject.boundaries = collisionObject.calculateBoundaries(
+                                        frame.boundaries.bottomRight.x - collisionObject.boundaries.radius,
+                                        collisionObject.boundaries.center.y,
+                                        collisionObject.boundaries.radius
+                                )
+                            }
+
+                        }
+                );
+
+                collisionDetector.movingCollision(balls, {
+                    onCollision: function (collisionObject1, collisionObject2, xAngle, yAngle) {
+                        collisionObject1.speed = collisionObject1.calculateSpeed (xAngle, yAngle, collisionObject1.speed.speedPerFrame);
+                        collisionObject2.speed = collisionObject2.calculateSpeed (-xAngle, -yAngle, collisionObject2.speed.speedPerFrame);
+                    }
+                });
+
+                for (var i=0; i<balls.length; i++){
+                    var movingObject = balls[i];
+                    if (movingObject.speed.speedPerFrame > 0){
+                        movingObject.move();
+                    }
+                }
+
+                if (keysPressed[UP]){
+                    userControlledBall.speed = userControlledBall.calculateSpeed(0, -1, 1);
+                }
+                if (keysPressed[DOWN]){
+                    userControlledBall.speed = userControlledBall.calculateSpeed(0, 1, 1);
+                }
+                if (keysPressed[LEFT]){
+                    userControlledBall.speed = userControlledBall.calculateSpeed(-1, 0, 1);
+                }
+                if (keysPressed[RIGHT]){
+                    userControlledBall.speed = userControlledBall.calculateSpeed(1, 0, 1);
+                }
+            }, 1000/60);
+        }
+
+
+    </script>
+
+</head>
+<body>
+<div style="position: absolute; top: 50px; left: 50px;">
+
+    <canvas id="canvasOne" width="500" height="500">
+        Your browser does not support the HTML 5 Canvas.
+    </canvas>
+</div>
+
+
+</body>
+</html>
+
+
+
+

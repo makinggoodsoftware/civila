@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CH5EX1: Moving On A Simple Line</title>
+    <script type="text/javascript">
+        window.addEventListener('load', eventWindowLoaded, false);
+
+        function eventWindowLoaded() {
+            app();
+        }
+
+        function Position(x, y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        function Vector(sideX, sideY) {
+            this.sideX = sideX;
+            this.sideY = sideY;
+        }
+
+        function Script(name) {
+            this.name = name;
+        }
+
+        function Actor(element) {
+            this.element = element;
+            this.uiProperties = null;
+
+            this.withUiProperties = function (uiProperties){
+                this.uiProperties = uiProperties;
+                return this;
+            };
+        }
+
+        function Stage (){
+            this.animatedActors = [];
+
+            this.addActor = function (actor, position, shaper){
+                var animatedActor = new AnimatedActor(actor, position, shaper);
+                this.animatedActors[this.animatedActors.length] = animatedActor;
+                return  animatedActor;
+            };
+        }
+
+        function Momentum (direction, velocity){
+            this.direction = direction;
+            this.velocity = velocity;
+        }
+
+        function AnimatedActor (actor, position, shaper){
+            this.actor = actor;
+            this.momentum = null;
+            this.shaper = shaper;
+            this.position = position;
+
+            this.withMomentum = function (momentum){
+                this.momentum = momentum;
+                return this;
+            }
+        }
+
+        function Vectors (){
+            this.length = function (vector){
+                return Math.sqrt((Math.pow(vector.sideX, 2))+(Math.pow(vector.sideY,2)));
+            };
+
+            this.withLength = function (vector, newLength){
+                var currentLength = this.length(vector);
+                var lengthFactor = currentLength / newLength;
+                return new Vector(
+                                vector.sideX / lengthFactor,
+                                vector.sideY / lengthFactor
+                );
+            };
+        }
+
+        function Scene(name) {
+            this.name = name;
+            this.stage = new Stage();
+
+            this.produceFrame = function () {
+                return this.stage.produceFrame();
+            };
+
+            this.prepare = function (roles, callback){
+                var self = this;
+                Utils.forEach(roles, function (role){
+                    Utils.forEach(role.actors, function (actor){
+                        callback(role, actor, self.stage);
+                    });
+                });
+            };
+        }
+
+        function Role(name) {
+            this.name = name;
+            this.actors = [];
+
+            this.createActor = function (entity) {
+                var actor = new Actor(entity);
+                this.actors[this.actors.length] = actor;
+                return  actor;
+            };
+        }
+
+        function Animator(vectors) {
+            this.vectors = vectors;
+
+            this.createScript = function (name) {
+                return new Script(name);
+            };
+
+            this.createRole = function (name) {
+                return new Role(name);
+            };
+
+            this.createMomentum = function (direction, speed){
+                return new Momentum(direction, this.vectors.withLength(direction, speed));
+            };
+
+            this.calculateNextPosition = function (position, momentum){
+                if (!momentum || !momentum.velocity) return position;
+                return new Position (
+                    position.x + momentum.velocity.sideX,
+                    position.y + momentum.velocity.sideY
+                );
+            };
+        }
+
+        function CollisionDetector (collisionManagers){
+            this.collisionManagers = collisionManagers;
+
+            this.checkForCollision = function (obj1, obj2){
+                return Utils.forEach(collisionManagers, function (collisionManager){
+                    var collisionResult = collisionManager.check(obj1, obj2);
+                    if (collisionResult){
+                        return collisionResult;
+                    }
+                });
+            };
+        }
+
+        function CollisionManager (shape1, shape2, collisionLogic){
+            this.shape1 = shape1;
+            this.shape2 = shape2;
+            this.collisionLogic = collisionLogic;
+
+            this.check = function (obj1, obj2){
+                var shape1Check = obj1.shape == this.shape1 || obj2.shape == this.shape1;
+                var shape2Check = obj1.shape == this.shape2 || obj2.shape == this.shape2;
+
+                if (!(shape1Check && shape2Check)) return null;
+                this.collisionLogic (obj1, obj2);
+            }
+        }
+
+        function CollisionLogic (){
+            this.circle = function (circle1, circle2){
+
+            };
+
+            this.rectangle = function (rectangle1, rectangle2){
+
+            };
+        }
+
+        function Shapes() {
+            this.circle = function (radius) {
+                return {
+                    shape: "circle",
+                    radius: radius,
+                    draw: function (context, position) {
+                        context.fillStyle = "#000000";
+                        context.beginPath();
+                        context.arc(position.x, position.y, this.radius, 0, Math.PI * 2, true);
+                        context.closePath();
+                        context.fill();
+                    },
+                    calculateBoundaries: function (position) {
+                        var radius = this.radius;
+                        return {
+                            topLeft: new Position(position.x - this.radius, position.y - radius),
+                            topRight: new Position(position.x + this.radius, position.y - radius),
+                            bottomLeft: new Position(position.x - this.radius, position.y + radius),
+                            bottomRight: new Position(position.x + this.radius, position.y + radius)
+                        }
+                    }
+                }
+            };
+            this.rectangle = function (box){
+                return {
+                    shape: "box",
+                    box: box,
+                    draw: function (context, position) {
+                        context.fillStyle = '#EEEEEE';
+                        context.fillRect(position.x, position.y, this.box.width, this.box.height);
+                        context.strokeStyle = '#000000';
+                        context.strokeRect(position.x +1, position.y + 1, this.box.width - 2, this.box.height - 2);
+                    },
+                    calculateBoundaries: function (position){
+                        return {
+                            topLeft:    new Position    (0, 0),
+                            topRight:   new Position    (this.box.width, 0),
+                            bottomLeft: new Position    (0, this.box.height),
+                            bottomRight:new Position    (this.box.width, this.box.height)
+                        }
+                    }
+                }
+            };
+        }
+
+        function Ball(radius) {
+            this.radius = radius;
+        }
+
+        function Rectangle(height, width) {
+            this.height = height;
+            this.width = width
+        }
+
+        var Utils = new (function Utils() {
+            this.forEach = function (items, callback) {
+                for (var i = 0; i < items.length; i++) {
+                    var it = items[i];
+                    var callBackResult = callback(it);
+                    if (callBackResult){
+                        return callBackResult;
+                    }
+                }
+            };
+        })();
+
+        function Player(fps, canvas, animator, collisionDetector) {
+            this.fps = fps;
+            this.canvas = canvas;
+            this.context = canvas.getContext('2d');
+
+            this.elements = [];
+
+            this.add = function (element){
+                if (element.c) throw new Error ("Can't animate an element that has been already animated");
+                element._animId = this.elements.length;
+                this.elements[this.elements.length] = element;
+            };
+
+            this.play = function () {
+                this.reset();
+                this.printFrame();
+                this.advanceScene();
+
+                var self = this;
+                setTimeout(function () {
+                    self.play();
+                }, 1000 / this.fps);
+            };
+
+            this.advanceScene = function () {
+                var self = this;
+                Utils.forEach(this.elements, function (it) {
+                    it.position = animator.calculateNextPosition (it.position, it.momentum);
+                    var collisionResult = self.checkForCollision (it);
+                    if (collisionResult){
+
+                    }
+                });
+            };
+
+            this.checkForCollision = function (element){
+                Utils.forEach(this.elements, function (it) {
+                    if (it._animId != element._animId){
+                        var thisBoundaries = element.shape.calculateBoundaries (element.position);
+                        var otherBoundaries = it.shape.calculateBoundaries (it.position);
+
+                    }
+                });
+            };
+
+            this.printFrame = function () {
+                var self = this;
+                Utils.forEach(this.elements, function (it) {
+                    self.printElement(it);
+                });
+            };
+
+            this.printElement = function (element){
+                var shape = element.shape;
+                var position = element.position;
+
+                shape.draw(this.context, position);
+            };
+
+            this.reset = function () {
+                //noinspection SillyAssignmentJS
+                this.canvas.width = this.canvas.width;
+            };
+        }
+
+        function app() {
+            var animator = new Animator(new Vectors());
+            var shapes = new Shapes();
+            var collisionLogic = new CollisionLogic();
+            var collisionDetector = new CollisionDetector([
+                new CollisionManager("circle", "circle", collisionLogic.circle),
+                new CollisionManager("rectangle", "rectangle", collisionLogic.rectangle),
+                new CollisionManager("circle", "rectangle", collisionLogic.rectangle)
+            ]);
+
+            var canvas = document.getElementById('canvasOne');
+            var player = new Player(60, canvas, animator, collisionDetector);
+            player.add({
+                roleName: "frame",
+                shape: shapes.rectangle(canvas),
+                position: new Position(0, 0),
+                type: "container"
+            });
+            Utils.forEach([{
+                position: new Position(300, 500),
+                momentum: animator.createMomentum(new Vector(-1, -4), 3),
+                radius: 10
+            },{
+                position: new Position(200, 100),
+                momentum: animator.createMomentum(new Vector(1, 4), 2),
+                radius: 5
+            }],
+                function (ballDetails){
+                    player.add({
+                        roleName: "ball",
+                        shape: shapes.circle(ballDetails.radius),
+                        position: ballDetails.position,
+                        momentum: ballDetails.momentum,
+                        onCollision: function (ball, collisionDescription){
+                            ball.momentum = animator.bounce (ball.momentum, collisionDescriptor);
+                        }
+                    })
+                }
+            );
+
+            player.play();
+        }
+    </script>
+
+</head>
+<body>
+<div style="position: absolute; top: 50px; left: 50px;">
+
+    <canvas id="canvasOne" width="500" height="500">
+        Your browser does not support the HTML 5 Canvas.
+    </canvas>
+</div>
+
+
+</body>
+</html>
+
+
+
+
